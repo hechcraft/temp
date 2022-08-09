@@ -6,7 +6,7 @@ services:
       context: "./php"
       args:
         uid: 1000
-    container_name: docker-container
+    container_name: php
     volumes:
       - .:/var/config
       - ../:/var/www/html
@@ -29,7 +29,7 @@ services:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: temp
     ports:
-      - "3307:3306"
+      - "3306:3306"
     networks:
       backend:
         aliases:

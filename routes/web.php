@@ -29,6 +29,7 @@ Route::get('/user/trackedGames', \App\Http\Controllers\TrackedGamesController::c
 Route::get('/user/profile', \App\Http\Controllers\ProfileController::class)->name('profile');
 
 Route::get('/test', function () {
+    dd(config());
     \App\Jobs\FetchRawg::dispatch();
 
     $q = new \App\Helpers\GameTracking();
