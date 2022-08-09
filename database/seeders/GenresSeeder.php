@@ -18,99 +18,99 @@ class GenresSeeder extends Seeder
         DB::table('genres')->insert([
             [
                 'id' => 4,
-                'name' => 'Action',
                 'slug' => 'action',
+                'name' => 'Action'
             ],
             [
                 'id' => 51,
-                'name' => 'Indie',
                 'slug' => 'indie',
+                'name' => 'Indie'
             ],
             [
                 'id' => 3,
-                'name' => 'Adventure',
                 'slug' => 'adventure',
+                'name' => 'Adventure'
             ],
             [
                 'id' => 5,
-                'name' => 'RPG',
                 'slug' => 'role-playing-games-rpg',
+                'name' => 'RPG'
             ],
             [
                 'id' => 10,
-                'name' => 'Strategy',
                 'slug' => 'strategy',
+                'name' => 'Strategy'
             ],
             [
                 'id' => 2,
-                'name' => 'Shooter',
                 'slug' => 'shooter',
+                'name' => 'Shooter'
             ],
             [
                 'id' => 40,
-                'name' => 'Casual',
                 'slug' => 'casual',
+                'name' => 'Casual'
             ],
             [
                 'id' => 14,
-                'name' => 'Simulation',
                 'slug' => 'simulation',
+                'name' => 'Simulation'
             ],
             [
                 'id' => 7,
-                'name' => 'Puzzle',
                 'slug' => 'puzzle',
+                'name' => 'Puzzle'
             ],
             [
                 'id' => 11,
-                'name' => 'Arcade',
                 'slug' => 'arcade',
+                'name' => 'Arcade'
             ],
             [
-                'id' => 93,
-                'name' => 'Platformer',
+                'id' => 83,
                 'slug' => 'platformer',
+                'name' => 'Platformer'
             ],
             [
                 'id' => 1,
-                'name' => 'Racing',
                 'slug' => 'racing',
+                'name' => 'Racing'
             ],
             [
                 'id' => 59,
-                'name' => 'Massively Multiplayer',
                 'slug' => 'massively-multiplayer',
+                'name' => 'Massively Multiplayer'
             ],
             [
                 'id' => 15,
-                'name' => 'Sports',
                 'slug' => 'sports',
+                'name' => 'Sports'
             ],
             [
                 'id' => 6,
-                'name' => 'Fighting',
                 'slug' => 'fighting',
+                'name' => 'Fighting'
             ],
             [
                 'id' => 19,
-                'name' => 'Family',
                 'slug' => 'family',
+                'name' => 'Family'
             ],
             [
                 'id' => 28,
-                'name' => 'Board Games',
                 'slug' => 'board-games',
+                'name' => 'Board Games'
             ],
             [
                 'id' => 34,
-                'name' => 'Educational',
                 'slug' => 'educational',
+                'name' => 'Educational'
             ],
             [
                 'id' => 17,
-                'name' => 'Card',
                 'slug' => 'card',
-            ],
+                'name' => 'Card'
+            ]
         ]);
     }
 }

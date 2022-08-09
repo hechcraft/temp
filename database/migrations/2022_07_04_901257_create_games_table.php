@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('rawg_id');
             $table->string('slug');
             $table->string('name');
-            $table->string('released');
+            $table->string('released')->nullable();
             $table->foreignId('image_id')->nullable()->constrained('images');
             $table->timestamps();
         });

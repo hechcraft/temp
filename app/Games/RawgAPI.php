@@ -60,6 +60,31 @@ class RawgAPI
         ])->json();
     }
 
+    public function gameSearchById(int $gameId): array
+    {
+        return Http::get("https://api.rawg.io/api/games/$gameId", [
+            'key' => config('services.rawg.key'),
+        ])->json();
+    }
+
+    public function gameScreenshots(int $gameId): array
+    {
+        $response = Http::get("https://api.rawg.io/api/games/$gameId/screenshots", [
+            'key' => config('services.rawg.key'),
+        ])->json();
+
+        return data_get($response, 'results');
+    }
+
+    public function gameStoreLink(int $rawgId): array
+    {
+        $response = Http::get("https://api.rawg.io/api/games/$rawgId/stores", [
+            'key' => config('services.rawg.key'),
+        ])->json();
+
+        return data_get($response, 'results');
+    }
+
     private function ratingSort(array $games): array
     {
         $gameSort = array();

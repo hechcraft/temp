@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('game_id')->constrained('games');
             $table->foreignId('store_id')->constrained('stores');
+            $table->string('store_link')->nullable();
         });
     }
 

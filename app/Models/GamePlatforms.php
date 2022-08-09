@@ -12,4 +12,9 @@ class GamePlatforms extends Model
     public $timestamps = false;
 
     protected $guarded = [];
+
+    public function platform(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Platform::class, 'id', 'platform_id');
+    }
 }

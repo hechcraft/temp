@@ -35,7 +35,7 @@ class FetchRawg implements ShouldQueue
         $saveGames = new SaveGames();
 
         $data = '2022-09-01,2022-10-01';
-        $data2 = '2022-06-01,2022-07-01';
+//        $data = '2022-07-01,2022-08-01';
 
         $response = $rawg->getPopularGames($data);
 
