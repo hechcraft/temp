@@ -4,6 +4,7 @@ namespace App\Games;
 
 use App\Models\Game;
 use App\Models\Images;
+use Illuminate\Support\Collection;
 
 class SaveGames
 {
@@ -13,6 +14,13 @@ class SaveGames
     {
     }
 
+
+    /**
+     * @param RawgGame $rawgGame
+     * @param Collection $gameScreenshots
+     * @param Collection $storeLinks
+     * @return void
+     */
     public function storeGames(RawgGame $rawgGame, \Illuminate\Support\Collection $gameScreenshots,
                                \Illuminate\Support\Collection $storeLinks): void
     {

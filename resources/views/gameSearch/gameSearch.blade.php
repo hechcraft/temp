@@ -12,7 +12,7 @@
                         <div class="relative">
                             <div class="relative w-full h-72 rounded-lg overflow-hidden">
                                 <img
-                                    src="{{$item->backgroundImage ?? asset('storage/defaultImage.jpg')}}"
+                                    src="{{$item->backgroundImage ?? asset('storage.jpg/defaultImage.jpg')}}"
                                     class="w-full h-full object-center object-cover">
                             </div>
                             <div class="relative mt-4">

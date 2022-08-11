@@ -89,7 +89,7 @@
                                 id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
                                 data-dropdown-placement="bottom">
                             <span class="sr-only">Open user menu</span>
-                            <img class="w-8 h-8 rounded-full" src="{{Auth::user()->avatar ?? asset('storage/defaultAvatar.jpg')}}" alt="user photo">
+                            <img class="w-8 h-8 rounded-full" src="{{Auth::user()->avatar ?? asset('storage.jpg/defaultAvatar.jpg')}}" alt="user photo">
                         </button>
                         <!-- Dropdown menu -->
                         <div
@@ -109,7 +109,7 @@
                                         List</a>
                                 </li>
                                 <li>
-                                    <a href="#"
+                                    <a href="{{route('profile', ['user' => Auth::user()->id])}}"
                                        class="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</a>
                                 </li>
                                 <li>

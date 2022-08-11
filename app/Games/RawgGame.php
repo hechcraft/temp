@@ -24,7 +24,7 @@ class RawgGame
             data_get($response, 'name'),
             data_get($response, 'released') ?? 'N/A',
             data_get($response, 'id'),
-            data_get($response, 'background_image') ?? asset('storage/defaultImage.jpg'),
+            data_get($response, 'background_image') ?? asset('storage.jpg/defaultImage.jpg'),
             data_get($response, 'genres'),
             data_get($response, 'platforms'),
             data_get($response, 'stores'),

@@ -26,7 +26,9 @@ Route::delete('/gameSearch', [\App\Http\Controllers\GameSearchController::class,
 Route::get('/game/{slug}', [\App\Http\Controllers\GameController::class, 'show']);
 
 Route::get('/user/trackedGames', \App\Http\Controllers\TrackedGamesController::class)->name('tracked.games');
-Route::get('/user/profile', \App\Http\Controllers\ProfileController::class)->name('profile');
+
+Route::get('/user/profile/{user}', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
+Route::put('/user/profile/{user}', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 
 Route::get('/test', function () {
 //    $q = new \App\Helpers\GameTracking();
