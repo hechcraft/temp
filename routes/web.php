@@ -29,26 +29,36 @@ Route::get('/user/trackedGames', \App\Http\Controllers\TrackedGamesController::c
 Route::get('/user/profile', \App\Http\Controllers\ProfileController::class)->name('profile');
 
 Route::get('/test', function () {
-    dd(config());
-    \App\Jobs\FetchRawg::dispatch();
+//    $q = new \App\Helpers\GameTracking();
+//    $q = new \App\Games\RawgAPI();
+//    $stray = 452638;
+//    $steelrising = 462688;
+//    $w = $q->gameStoreLink($steelrising);
+//    dd($w);
+//    foreach ($w as $item) {
+//        dd($item->screenshot);
+//    }
+//    dd($q->gameScreenshots($stray));
+    //    dd($q->gameScreenshots($stray));//
+    $data = '2022-09-01,2022-10-01';
+//    $data = '2022-07-01,2022-08-01';
+    \App\Jobs\FetchRawg::dispatch($data);
 
-    $q = new \App\Helpers\GameTracking();
-    dd($q->deleteGame());
+//    dd($q->deleteGame());
 
 //    http://temp.test/password/reset
-    $stray = 452638;
     $cuphead = 28154;
     $fable = 471026;
     $a = \App\Models\Game::firstWhere('rawg_id', $cuphead);
-    $q = new \App\Games\RawgAPI();
 //    dd($q->gameStoreLink($cuphead));
     dd($q->gameSearchById(481908));
 //    dd($q->gameSearch('saints row'));
 //    dd($q->gameSearch('God of war'));
 });
-Route::view('/toggle', 'toggle');
-Route::view('/game', 'gameCard');
-Route::view('/auth', 'auth');
+
+Route::get('/auth',  function () {
+    return view('auth', ['user' => Auth::user()]);
+});
 
 Auth::routes();
 Route::get('/logout', function () {

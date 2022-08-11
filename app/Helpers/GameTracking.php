@@ -8,8 +8,6 @@ class GameTracking
 {
     public function __construct(private int $userId, private int $gameId)
     {
-        $this->userId = $userId;
-        $this->gameId = $gameId;
     }
 
     public function addGame(): void

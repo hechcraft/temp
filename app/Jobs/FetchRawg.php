@@ -2,7 +2,9 @@
 
 namespace App\Jobs;
 
+use App\Games\GameAttributes;
 use App\Games\RawgAPI;
+use App\Games\SaveAttributes;
 use App\Games\SaveGames;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -10,7 +12,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 
-class FetchRawg implements ShouldQueue
+class  FetchRawg implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -19,9 +21,9 @@ class FetchRawg implements ShouldQueue
      *
      * @return void
      */
-    public function __construct()
+
+    public function __construct(public string $data)
     {
-        //
     }
 
     /**
@@ -29,18 +31,14 @@ class FetchRawg implements ShouldQueue
      *
      * @return void
      */
-    public function handle()
+    public function handle(RawgAPI $rawgAPI, SaveGames $saveGames)
     {
-        $rawg = new RawgAPI();
-        $saveGames = new SaveGames();
-
-        $data = '2022-09-01,2022-10-01';
-//        $data = '2022-07-01,2022-08-01';
-
-        $response = $rawg->getPopularGames($data);
+        $response = $rawgAPI->getPopularGames($this->data);
 
         foreach ($response as $item) {
-            $saveGames->storeGames($item);
+            $saveGames->storeGames($item,
+                $rawgAPI->getGameAtrributes($item->rawgId, GameAttributes::Screenshots),
+                $rawgAPI->getGameAtrributes($item->rawgId, GameAttributes::Stores));
         }
 
         dd($response);

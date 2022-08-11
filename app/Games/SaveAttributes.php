@@ -5,6 +5,7 @@ namespace App\Games;
 use App\Games\Attributes\Genre;
 use App\Games\Attributes\Platform;
 use App\Games\Attributes\Store;
+use Illuminate\Support\Collection;
 
 class SaveAttributes
 {
@@ -14,11 +15,14 @@ class SaveAttributes
         Store::class,
     ];
 
-    public function save(array $response,int $gameId): void
+    public function save(RawgGame $rawgGame,int $gameId): void
     {
         foreach ($this->storedTypes as $storedType) {
             $attributeClass = new $storedType;
-            foreach (data_get($response, $attributeClass->globalKey) as $item) {
+
+            $key = $attributeClass->globalKey;
+
+            foreach ($rawgGame->$key as $item) {
                 $attributeClass->model::create([
                     'game_id' => $gameId,
                     $attributeClass->saveKey => data_get($item, $attributeClass->getKey)

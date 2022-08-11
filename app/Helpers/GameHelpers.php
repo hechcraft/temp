@@ -7,7 +7,7 @@ use Carbon\Carbon;
 
 class GameHelpers
 {
-    public function gameByRawgId(int $id): array
+    public function gameByRawgId(int $id)
     {
         return Game::firstWhere('rawg_id', $id);
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Games\GameAttributes;
 use App\Games\RawgAPI;
 use App\Games\SaveGames;
 use App\Helpers\GameHelpers;
@@ -13,6 +14,14 @@ use Illuminate\Support\Str;
 
 class GameSearchController extends Controller
 {
+    public function __construct(
+        private RawgAPI   $rawgAPI,
+        private SaveGames $saveGames,
+        private GameHelpers $gameHelpers,
+    )
+    {
+    }
+
     /**
      * Handle the incoming request.
      *
@@ -21,13 +30,10 @@ class GameSearchController extends Controller
      */
     public function index(Request $request)
     {
-        $rawg = new RawgAPI();
-
         $searchQuery = Str::after(url()->full(), '?search=');
 
         return view('gameSearch.gameSearch',
-            ['search' => data_get($rawg->gameSearch($request->search), 'results'),
-              'query' => $searchQuery]);
+            ['search' => $this->rawgAPI->gameSearch($request->search), 'query' => $searchQuery]);
     }
 
     public function store(Request $request)
@@ -37,13 +43,14 @@ class GameSearchController extends Controller
             'rawgGameId' => 'required|integer',
         ]);
 
-        $rawg = new RawgAPI();
-        $saveGames = new SaveGames();
-
-        $currentGame = Game::firstWhere('rawg_id', $request->rawgGameId);
+        $currentGame = $this->gameHelpers->gameByRawgId($request->rawgGameId);
 
         if (!$currentGame) {
-            $saveGames->storeGames($rawg->gameSearchById($request->rawgGameId));
+            $this->saveGames->storeGames(
+                $this->rawgAPI->gameSearchById($request->rawgGameId),
+                $this->rawgAPI->getGameAtrributes($request->rawgGameId, GameAttributes::Screenshots),
+                $this->rawgAPI->getGameAtrributes($request->rawgGameId, GameAttributes::Stores)
+            );
 
             return redirect()->route('main');
         }

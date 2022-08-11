@@ -28,7 +28,7 @@
                                 <i class="fa-brands fa-2xl fa-yandex-international"></i>
                             </span>
                         </span>
-                                <input type="text" name="company-website" id="company-website"
+                                <input type="text" name="search" id="company-website"
                                        class="flex-1 min-w-0 block w-full px-3 py-2 border rounded-none  border-r-0 border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300"
                                        placeholder="www.example.com">
                                 <button type="submit"
