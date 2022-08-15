@@ -1,5 +1,29 @@
 @extends('layouts.main')
 @section('content')
+    @if (session('status'))
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" id="status">
+            <div class="max-w-3xl mx-auto">
+                <div class="rounded-md bg-green-50 p-4">
+                    <div class="flex items-center ">
+                        <div class="flex-shrink-0">
+                            <!-- Heroicon name: solid/check-circle -->
+                            <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                 fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd"
+                                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                      clip-rule="evenodd"/>
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <div class="mt-2 text-xl-center text-green-700 ">
+                                <p>{{ session('status') }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
     <div class="flex-column">
         <div class="container mx-auto px-4 sm:px-6 lg:px-8">
             @include('components.slider', ['games' => $games])
@@ -9,15 +33,15 @@
                         <div class="p-2">
                             <div class="mt-1 flex rounded-md shadow-sm">
                         <span
-                            class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+                            class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-600 bg-gray-600 text-gray-500 sm:text-sm">
                             <span class="flex-grow-0 mr-2">
                                 <span class="text-sm font-medium text-gray-900" id="availability-label">
-                                            <i class="fa-brands fa-2xl fa-google"></i>
+                                            <i class="fa-brands fa-2xl fa-google" style="color: white"></i>
                                 </span>
                             </span>
                         <button type="button"
                                 id="toggle"
-                                class="bg-gray-200 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                class="bg-gray-900 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                 role="switch" aria-checked="false" aria-labelledby="annual-billing-label">
                             <span aria-hidden="true" id="point"
                                   class="translate-x-0 pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200">
@@ -25,14 +49,15 @@
                         </button>
                         <input type="text" hidden value="0" id="toggleValue" name="toggleValue">
                             <span class="ml-3" id="annual-billing-label">
-                                <i class="fa-brands fa-2xl fa-yandex-international"></i>
+                                <i class="fa-brands fa-2xl fa-yandex-international" style="color: white"></i>
                             </span>
                         </span>
                                 <input type="text" name="search" id="company-website"
-                                       class="flex-1 min-w-0 block w-full px-3 py-2 border rounded-none  border-r-0 border-gray-300 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300"
+                                       class="flex-1 min-w-0  w-full px-3 py-2  bg-gray-600 rounded-none focus:border-gray-300 border-gray-600  text-white  sm:text-sm border-gray-300"
+                                       style="outline: none !important; border:none;"
                                        placeholder="www.example.com">
                                 <button type="submit"
-                                        class="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 text-sm font-medium rounded-r-md text-gray-700 bg-gray-50 hover:bg-gray-100 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
+                                        class="-ml-px relative inline-flex items-center space-x-2 px-4 py-2 border border-gray-600 text-sm font-medium rounded-r-md text-white bg-gray-600 hover:bg-gray-400 focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500">
                                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none"
                                          viewBox="0 0 24 24"
                                          stroke="currentColor" aria-hidden="true">
@@ -51,8 +76,11 @@
         </div>
     </div>
     <script>
+        setTimeout(function(){
+            $('#status').remove();
+        }, 2000);
         $(document).ready(function () {
-            if ($('#toggleValue').val() === "1"){
+            if ($('#toggleValue').val() === "1") {
                 $('#toggle').addClass("bg-indigo-600");
                 $('#point').addClass("translate-x-5");
             }

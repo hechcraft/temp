@@ -2,14 +2,15 @@
 
 namespace App\Games;
 
+use App\Helpers\GameHelpers;
 use App\Models\Game;
 use App\Models\Images;
-use Illuminate\Support\Collection;
 
 class SaveGames
 {
     public function __construct(
-        private SaveAttributes $saveAttributes
+        private SaveAttributes $saveAttributes,
+        private GameHelpers    $gameHelpers,
     )
     {
     }
@@ -17,12 +18,12 @@ class SaveGames
 
     /**
      * @param RawgGame $rawgGame
-     * @param Collection $gameScreenshots
-     * @param Collection $storeLinks
+     * @param RawgGameScreenshot $gameScreenshots
+     * @param RawgStoreLink $storeLinks
      * @return void
      */
-    public function storeGames(RawgGame $rawgGame, \Illuminate\Support\Collection $gameScreenshots,
-                               \Illuminate\Support\Collection $storeLinks): void
+    public function storeGames(RawgGame                       $rawgGame, \Illuminate\Support\Collection $gameScreenshots,
+                               \Illuminate\Support\Collection $storeLinks): Game
     {
         $game = Game::create([
             'slug' => $rawgGame->slug,
@@ -38,6 +39,35 @@ class SaveGames
         $this->saveAttributes->save($rawgGame, $game->id);
 
         $this->saveStoreLinks($game, $storeLinks);
+
+        return $game;
+    }
+
+    public function updateGames(RawgGame $rawgGame): Game
+    {
+        $game = $this->gameHelpers->gameByRawgId($rawgGame->rawgId);
+
+        $game->slug = $rawgGame->slug;
+        $game->name = $rawgGame->name;
+        $game->released = $rawgGame->released;
+        $game->rawg_id = $rawgGame->rawgId;
+        $game->save();
+
+        return $game;
+    }
+
+    public function updateStoresLink(\Illuminate\Support\Collection $stores)
+    {
+        $game = $this->gameHelpers->gameByRawgId($stores[0]->gameId);
+
+        foreach ($stores as $store) {
+            foreach ($game->stores as $gameStore) {
+                if ($gameStore->store_id === $store->storeId) {
+                    $gameStore->store_link = $store->url;
+                    $gameStore->save();
+                }
+            }
+        }
     }
 
     private function saveScreenshots(\Illuminate\Support\Collection $screenshots, string $backgroundImage): int

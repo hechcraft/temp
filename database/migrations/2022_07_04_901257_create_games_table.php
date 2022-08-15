@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('rawg_id');
-            $table->string('slug');
+            $table->string('slug')->unique();
             $table->string('name');
             $table->string('released')->nullable();
             $table->foreignId('image_id')->nullable()->constrained('images');

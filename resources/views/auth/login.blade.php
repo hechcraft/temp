@@ -1,35 +1,11 @@
 @extends('layouts.main')
 @section('content')
-    <!--
-  This example requires Tailwind CSS v2.0+
-
-  This example requires some changes to your config:
-
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
-    <!--
-      This example requires updating your template:
-
-      ```
-      <html class="h-full bg-white">
-      <body class="h-full">
-      ```
-    -->
     <div class="min-h-full flex">
         <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
             <div class="mx-auto w-full max-w-sm lg:w-96">
                 <div>
                     {{--                    <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow">--}}
-                    <h2 class="mt-6 text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+                    <h2 class="mt-6 text-3xl font-extrabold text-white">Sign in to your account</h2>
                 </div>
 
                 <div class="mt-8">
@@ -73,7 +49,7 @@
                         <form action="{{route('login')}}" method="POST" class="space-y-6">
                             @csrf
                             <div>
-                                <label for="email" class="block text-sm font-medium text-gray-700"> Email
+                                <label for="email" class="block text-sm font-medium text-white"> Email
                                     address </label>
                                 <div class="mt-1">
                                     <input id="email" name="email" type="email" autocomplete="email" required
@@ -89,7 +65,7 @@
                             </div>
 
                             <div class="space-y-1">
-                                <label for="password" class="block text-sm font-medium text-gray-700"> Password </label>
+                                <label for="password" class="block text-sm font-medium text-white"> Password </label>
                                 <div class="mt-1">
                                     <input id="password" name="password" type="password" autocomplete="current-password"
                                            required
@@ -107,7 +83,7 @@
                                     <div class="w-full border-t border-gray-300"></div>
                                 </div>
                                 <div class="relative flex justify-center text-sm">
-                                    <span class="px-2 bg-white text-gray-500"> Or
+                                    <span class="px-2 bg-gray-900 text-white"> Or
                                         <a class="text-blue-500" href="{{route('register')}}">register</a>
                                         if you don't have an account yet </span>
                                 </div>
@@ -117,7 +93,7 @@
                                 <div class="flex items-center">
                                     <input id="remember-me" name="remember" type="checkbox"
                                            {{ old('remember') ? 'checked' : '' }} class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                                    <label for="remember-me" class="ml-2 block text-sm text-gray-900"> Remember
+                                    <label for="remember-me" class="ml-2 block text-sm text-white"> Remember
                                         me </label>
                                 </div>
 

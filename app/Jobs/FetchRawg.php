@@ -4,13 +4,17 @@ namespace App\Jobs;
 
 use App\Games\GameAttributes;
 use App\Games\RawgAPI;
-use App\Games\SaveAttributes;
 use App\Games\SaveGames;
+use App\Helpers\GameHelpers;
+use App\Models\Game;
+use Carbon\Carbon;
+use Decimal\Decimal;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class  FetchRawg implements ShouldQueue
 {
@@ -22,7 +26,7 @@ class  FetchRawg implements ShouldQueue
      * @return void
      */
 
-    public function __construct(public string $data)
+    public function __construct(public string $date)
     {
     }
 
@@ -31,16 +35,34 @@ class  FetchRawg implements ShouldQueue
      *
      * @return void
      */
-    public function handle(RawgAPI $rawgAPI, SaveGames $saveGames)
+    public function handle(RawgAPI $rawgAPI, SaveGames $saveGames, GameHelpers $gameHelpers)
     {
-        $response = $rawgAPI->getPopularGames($this->data);
+        $response = $rawgAPI->getPopularGames($this->date);
 
         foreach ($response as $item) {
-            $saveGames->storeGames($item,
-                $rawgAPI->getGameAtrributes($item->rawgId, GameAttributes::Screenshots),
-                $rawgAPI->getGameAtrributes($item->rawgId, GameAttributes::Stores));
-        }
+            try {
+                $currentGame = $gameHelpers->gameByRawgId($item->rawgId);
+                $currentGameStores = $rawgAPI->getGameAtrributes($item->rawgId, GameAttributes::Stores);
 
-        dd($response);
+                if (is_null($currentGame)) {
+                    $saveGames->storeGames($item,
+                        $rawgAPI->getGameAtrributes($item->rawgId, GameAttributes::Screenshots),
+                        $currentGameStores);
+                    continue;
+                }
+
+                if ($gameHelpers->dbGameMd5($currentGame) !== $gameHelpers->rawgGameMd5($item)) {
+                    $saveGames->updateGames($item);
+                }
+
+                if ($gameHelpers->storeMd5($currentGameStores) !== $gameHelpers->storeMd5($currentGame->stores)) {
+                    $saveGames->updateStoresLink($currentGameStores);
+                }
+
+            } catch (\Exception $exception) {
+                Log::info($exception);
+                Log::info((array)$item);
+            }
+        }
     }
 }

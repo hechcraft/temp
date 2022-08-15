@@ -2,42 +2,42 @@
 
 namespace App\Helpers;
 
-use App\Models\UserTraking;
+use App\Models\UserTracking;
 
 class GameTracking
 {
-    public function __construct(private int $userId, private int $gameId)
+    public function __construct()
     {
     }
 
-    public function addGame(): void
+    public function addGame(int $userId, int $gameId): void
     {
-        UserTraking::create([
-            'user_id' => $this->userId,
-            'game_id' => $this->gameId,
+        UserTracking::create([
+            'user_id' => $userId,
+            'game_id' => $gameId,
         ]);
     }
 
-    public function deleteGame(): \Illuminate\Http\RedirectResponse
+    public function deleteGame(int $userId, int $gameId): \Illuminate\Http\RedirectResponse
     {
-        $this->currentGame()->delete();
+        $this->currentGame($userId, $gameId)->delete();
 
         return redirect()->route('main');
     }
 
-    public function issetGameTracking(): bool
+    public function issetGameTracking(int $userId, int $gameId): bool
     {
-        $currentGame = $this->currentGame();
+        $currentGame = $this->currentGame($userId, $gameId);
 
         if (isset($currentGame)) return true;
 
         return false;
     }
 
-    private function currentGame()
+    private function currentGame(int $userId, int $gameId)
     {
-        return UserTraking::where('user_id', $this->userId)
-            ->where('game_id', $this->gameId)
+        return UserTracking::where('user_id', $userId)
+            ->where('game_id', $gameId)
             ->first();
     }
 }

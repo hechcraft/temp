@@ -21,28 +21,28 @@ class StoreSeeder extends Seeder
                 'slug' => 'steam',
                 'name' => 'Steam',
                 'domain' => 'store.steampowered.com',
-                'icon' => '<i class="fa-brands fa-steam"></i>',
+                'icon' => '<i class="fa-brands fa-steam" style="color: white"></i>',
             ],
             [
                 'id' => 3,
                 'slug' => 'playstation-store',
                 'name' => 'PlayStation Store',
                 'domain' => 'store.playstation.com',
-                'icon' => '<i class="fa-brands fa-playstation"></i>',
+                'icon' => '<i class="fa-brands fa-playstation" style="color: white"></i>',
             ],
             [
                 'id' => 2,
                 'slug' => 'xbox-store',
                 'name' => 'Xbox Store',
                 'domain' => 'microsoft.com',
-                'icon' => '<i class="fa-brands fa-xbox"></i>',
+                'icon' => '<i class="fa-brands fa-xbox" style="color: white"></i>',
             ],
             [
                 'id' => 4,
                 'slug' => 'apple-appstore',
                 'name' => 'App Store',
                 'domain' => 'apps.apple.com',
-                'icon' => '<i class="fa-brands fa-apple"></i>',
+                'icon' => '<i class="fa-brands fa-apple" style="color: white"></i>',
             ],
             [
                 'id' => 5,
@@ -50,7 +50,7 @@ class StoreSeeder extends Seeder
                 'name' => 'GOG',
                 'domain' => 'gog.com',
                 'icon' => '<img src="http://logosvg.com/wp-content/uploads/GOG-com_logo.svg"
-                        class="w-6 h-6 object-center" style="filter: grayscale(100%);">',
+                        class="w-6 h-6 object-center" style="filter: brightness(0) invert(1);">',
             ],
             [
                 'id' => 6,
@@ -58,14 +58,14 @@ class StoreSeeder extends Seeder
                 'name' => 'Nintendo Store',
                 'domain' => 'nintendo.com',
                 'icon' => '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Micrologo_Nintendo.svg/130px-Micrologo_Nintendo.svg.png?20110827055529"
-                        class="w-6 h-6 object-center" style="filter: grayscale(100%);">',
+                        class="w-6 h-6 object-center" style="filter: brightness(0) invert(1);">',
             ],
             [
                 'id' => 7,
                 'slug' => 'xbox360',
                 'name' => 'Xbox 360 Store',
                 'domain' => 'marketplace.xbox.com',
-                'icon' => '<i class="fa-brands fa-xbox"></i>',
+                'icon' => '<i class="fa-brands fa-xbox" style="color: white"></i>',
 
             ],
             [
@@ -73,7 +73,7 @@ class StoreSeeder extends Seeder
                 'slug' => 'google-play',
                 'name' => 'Google Play',
                 'domain' => 'play.google.com',
-                'icon' => '<i class="fa-brands fa-android"></i>',
+                'icon' => '<i class="fa-brands fa-android" style="color: white"></i>',
             ],
             [
                 'id' => 9,
@@ -88,7 +88,7 @@ class StoreSeeder extends Seeder
                 'name' => 'Epic Games',
                 'domain' => 'epicgames.com',
                 'icon' => '<img src="http://logosvg.com/wp-content/uploads/Epic_Games_logo.svg"
-                        class="w-6 h-6 object-center" style="filter: grayscale(100%);">',
+                        class="w-6 h-6 object-center" style="filter: brightness(0) invert(1);">',
             ],
         ]);
     }

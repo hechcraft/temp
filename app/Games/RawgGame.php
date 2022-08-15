@@ -10,9 +10,9 @@ class RawgGame
         public readonly string $released,
         public readonly int $rawgId,
         public readonly string $backgroundImage,
-        public readonly array  $genres,
-        public readonly array  $platforms,
-        public readonly array  $stores,
+        public readonly array $genres,
+        public readonly array $platforms,
+        public readonly ?array $stores,
     )
     {
     }
@@ -27,7 +27,7 @@ class RawgGame
             data_get($response, 'background_image') ?? asset('storage.jpg/defaultImage.jpg'),
             data_get($response, 'genres'),
             data_get($response, 'platforms'),
-            data_get($response, 'stores'),
+            data_get($response, 'stores') ,
         );
     }
 }

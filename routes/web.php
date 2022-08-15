@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
@@ -11,7 +10,7 @@ use Illuminate\Support\Facades\Route;
 |
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
+| contains the "web"middleware group. Now create something great!
 |
 */
 
@@ -20,45 +19,19 @@ Route::get('/search', [\App\Http\Controllers\SearchController::class, 'search'])
 
 Route::get('/gameSearch', [\App\Http\Controllers\GameSearchController::class, 'index'])->name('game.search');
 
-Route::post('/gameSearch', [\App\Http\Controllers\GameSearchController::class, 'store'])->name('game.search.save');
-Route::delete('/gameSearch', [\App\Http\Controllers\GameSearchController::class, 'destroy'])->name('game.search.delete');
-
 Route::get('/game/{slug}', [\App\Http\Controllers\GameController::class, 'show']);
 
-Route::get('/user/trackedGames', \App\Http\Controllers\TrackedGamesController::class)->name('tracked.games');
 
-Route::get('/user/profile/{user}', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
-Route::put('/user/profile/{user}', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
-
-Route::get('/test', function () {
-//    $q = new \App\Helpers\GameTracking();
-//    $q = new \App\Games\RawgAPI();
-//    $stray = 452638;
-//    $steelrising = 462688;
-//    $w = $q->gameStoreLink($steelrising);
-//    dd($w);
-//    foreach ($w as $item) {
-//        dd($item->screenshot);
-//    }
-//    dd($q->gameScreenshots($stray));
-    //    dd($q->gameScreenshots($stray));//
-    $data = '2022-09-01,2022-10-01';
-//    $data = '2022-07-01,2022-08-01';
-    \App\Jobs\FetchRawg::dispatch($data);
-
-//    dd($q->deleteGame());
-
-//    http://temp.test/password/reset
-    $cuphead = 28154;
-    $fable = 471026;
-    $a = \App\Models\Game::firstWhere('rawg_id', $cuphead);
-//    dd($q->gameStoreLink($cuphead));
-    dd($q->gameSearchById(481908));
-//    dd($q->gameSearch('saints row'));
-//    dd($q->gameSearch('God of war'));
+Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function () {
+    Route::post('/gameSearch', [\App\Http\Controllers\GameSearchController::class, 'store'])->name('game.search.save');
+    Route::delete('/gameSearch', [\App\Http\Controllers\GameSearchController::class, 'destroy'])->name('game.search.delete');
+    Route::get('/user/profile/{user}', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
+    Route::put('/user/profile/{user}', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/user/trackedGames', [\App\Http\Controllers\TrackedGamesController::class, 'index'])->name('tracked.games');
+    Route::delete('/user/trackedGames/{tracking}', [\App\Http\Controllers\TrackedGamesController::class, 'delete'])->name('tracked.games.delete');
 });
 
-Route::get('/auth',  function () {
+Route::get('/auth', function () {
     return view('auth', ['user' => Auth::user()]);
 });
 

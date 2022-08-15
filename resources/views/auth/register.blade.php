@@ -4,14 +4,13 @@
         <div class="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
             <div class="mx-auto w-full max-w-sm lg:w-96">
                 <div>
-                    {{--                    <img class="h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow">--}}
-                    <h2 class="mt-6 text-3xl font-extrabold text-gray-900">Create a new account</h2>
+                    <h2 class="mt-6 text-3xl font-extrabold text-white">Create a new account</h2>
                 </div>
 
                 <div class="mt-8">
                     {{--                    <div>--}}
                     {{--                        <div>--}}
-                    {{--                            <p class="text-sm font-medium text-gray-700">Sign in with</p>--}}
+                    {{--                            <p class="text-sm font-medium text-white">Sign in with</p>--}}
 
                     {{--                            <div class="mt-1 grid grid-cols-3 gap-3">--}}
                     {{--                                <div>--}}
@@ -49,11 +48,11 @@
                         <form action="{{route('register')}}" method="POST" class="space-y-6">
                             @csrf
                             <div>
-                                <label for="name" class="block text-sm font-medium text-gray-700"> Name </label>
+                                <label for="name" class="block text-sm font-medium text-white"> Name </label>
                                 <div class="mt-1">
                                     <input id="name" name="name" type="text" autocomplete="name" value="{{old('name')}}"
                                            required
-                                           class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                           class="appearance-none block w-full px-3 py-2 text-white bg-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 </div>
 
                                 @error('name')
@@ -64,12 +63,12 @@
                             </div>
 
                             <div class="space-y-1">
-                                <label for="email" class="block text-sm font-medium text-gray-700"> Email
+                                <label for="email" class="block text-sm font-medium text-white"> Email
                                     address </label>
                                 <div class="mt-1">
                                     <input id="email" name="email" type="email" autocomplete="email"
                                            value="{{old('email')}}" required
-                                           class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                           class="appearance-none block w-full px-3 py-2 text-white bg-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 </div>
                                 @error('email')
                                 <p class="mt-2 text-sm text-red-600" id="email-error">
@@ -79,11 +78,11 @@
                             </div>
 
                             <div class="space-y-1">
-                                <label for="password" class="block text-sm font-medium text-gray-700"> Password </label>
+                                <label for="password" class="block text-sm font-medium text-white"> Password </label>
                                 <div class="mt-1">
                                     <input id="password" name="password" type="password" autocomplete="new-password"
                                            required
-                                           class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                           class="appearance-none block w-full px-3 py-2 text-white bg-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 </div>
                                 @error('password')
                                 <p class="mt-2 text-sm text-red-600" id="email-error">
@@ -93,12 +92,12 @@
                             </div>
 
                             <div class="space-y-1">
-                                <label for="password-confirm" class="block text-sm font-medium text-gray-700"> Confirm
+                                <label for="password-confirm" class="block text-sm font-medium text-white"> Confirm
                                     Password </label>
                                 <div class="mt-1">
                                     <input id="password-confirm" name="password_confirmation" type="password"
                                            autocomplete="new-password" required
-                                           class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                           class="appearance-none block w-full px-3 py-2 text-white bg-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 </div>
                                 @error('email')
                                 <p class="mt-2 text-sm text-red-600" id="email-error">
@@ -112,7 +111,7 @@
                                     <div class="w-full border-t border-gray-300"></div>
                                 </div>
                                 <div class="relative flex justify-center text-sm">
-                                    <span class="px-2 bg-white text-gray-500"> Or
+                                    <span class="px-2 bg-gray-900 text-white"> Or
                                         <a class="text-blue-500" href="{{route('login')}}">login</a>
                                         if you already have an account </span>
                                 </div>

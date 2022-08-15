@@ -1,226 +1,148 @@
 @extends('layouts.main')
 @section('content')
-    <div class="container">
-        <form class="space-y-8 divide-y divide-gray-200">
-            <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
-                <div>
-                    <div>
-                        <h3 class="text-lg leading-6 font-medium text-gray-900">Profile</h3>
-                        <p class="mt-1 max-w-2xl text-sm text-gray-500">This information will be displayed publicly so be careful what you share.</p>
-                    </div>
-
-                    <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-                        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label for="username" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Username </label>
-                            <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                <div class="max-w-lg flex rounded-md shadow-sm">
-                                    <span class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm"> workcation.com/ </span>
-                                    <input type="text" name="username" id="username" autocomplete="username" class="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300">
-                                </div>
-                            </div>
+    <form method="post" action="{{route('profile.update', ['user' => $user->id])}}" enctype="multipart/form-data">
+        @csrf
+        @method('put')
+        <div class="max-w-4xl mx-auto flex flex-col md:px-8 xl:px-0">
+            <main class="flex-1">
+                <div class="relative max-w-4xl mx-auto md:px-8 xl:px-0">
+                    <div class="pt-10 pb-16">
+                        <div class="px-4 sm:px-6 md:px-0">
+                            <h1 class="text-3xl font-extrabold text-white">Settings</h1>
                         </div>
-
-                        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label for="about" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> About </label>
-                            <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                <textarea id="about" name="about" rows="3" class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"></textarea>
-                                <p class="mt-2 text-sm text-gray-500">Write a few sentences about yourself.</p>
-                            </div>
-                        </div>
-
-                        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-center sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label for="photo" class="block text-sm font-medium text-gray-700"> Photo </label>
-                            <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                <div class="flex items-center">
-              <span class="h-12 w-12 rounded-full overflow-hidden bg-gray-100">
-                <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-              </span>
-                                    <button type="button" class="ml-5 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Change</button>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label for="cover-photo" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Cover photo </label>
-                            <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                <div class="max-w-lg flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                                    <div class="space-y-1 text-center">
-                                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                                        </svg>
-                                        <div class="flex text-sm text-gray-600">
-                                            <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                                                <span>Upload a file</span>
-                                                <input id="file-upload" name="file-upload" type="file" class="sr-only">
-                                            </label>
-                                            <p class="pl-1">or drag and drop</p>
-                                        </div>
-                                        <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                        <div class="px-4 sm:px-6 md:px-0">
+                            <div class="py-6">
+                                <!-- Description list with inline editing -->
+                                <div class="mt-10 divide-y divide-gray-200">
+                                    <div class="space-y-1">
+                                        <h3 class="text-lg leading-6 font-medium text-white">Profile</h3>
+                                    </div>
+                                    <div class="mt-6">
+                                        <dl class="divide-y divide-gray-200">
+                                            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
+                                                <dt class="text-sm font-medium text-white">Name</dt>
+                                                <dd class="mt-1 flex text-sm text-white sm:mt-0 sm:col-span-2">
+                                                    <input class="flex-grow border-2 rounded-lg bg-gray-600 border-gray-500/50"
+                                                           value="{{$user->name}}" name="name"/>
+                                                    @error('name')
+                                                    <p class="mt-2 text-sm text-red-600" id="email-error">
+                                                        {{$message}}
+                                                    </p>
+                                                    @enderror
+                                                </dd>
+                                            </div>
+                                            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5">
+                                                <dt class="text-sm font-medium text-white">Avatar</dt>
+                                                <dd class="mt-1 flex text-sm text-white sm:mt-0 sm:col-span-2">
+                                                  <span class="flex-grow">
+                                                    <img class="h-8 w-8 rounded-full"
+                                                         src="{{asset($user->avatar)}}"
+                                                         alt="">
+                                                  </span>
+                                                    <input type="file" id="avatar" name="avatar"
+                                                           class="rounded-lg font-medium text-purple-600 hover:text-purple-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"/>
+                                                    </span>
+                                                </dd>
+                                            </div>
+                                            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5">
+                                                <dt class="text-sm font-medium text-white">Email</dt>
+                                                <dd class="mt-1 flex text-sm text-white sm:mt-0 sm:col-span-2">
+                                                    <input class="flex-grow border-2 rounded-lg bg-gray-600 border-gray-500/50"
+                                                           value="{{$user->email}}" name="email"/>
+                                                    @error('email')
+                                                    <p class="mt-2 text-sm text-red-600" id="email-error">
+                                                        {{$message}}
+                                                    </p>
+                                                    @enderror
+                                                </dd>
+                                            </div>
+                                            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5">
+                                                <dt class="text-sm font-medium text-white">Password</dt>
+                                                <dd class="mt-1 flex text-sm text-white sm:mt-0 sm:col-span-2">
+                                                    <input class="flex-grow border-2 rounded-lg bg-gray-600 border-gray-500/50"
+                                                           value="" type="password" name="password" required/>
+                                                    @error('password')
+                                                    <p class="mt-2 text-sm text-red-600" id="email-error">
+                                                        {{$message}}
+                                                    </p>
+                                                    @enderror
+                                                </dd>
+                                            </div>
+                                            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5">
+                                                <dt class="text-sm font-medium text-white">Confirm password</dt>
+                                                <dd class="mt-1 flex text-sm text-white sm:mt-0 sm:col-span-2">
+                                                    <input class="flex-grow border-2 rounded-lg bg-gray-600 border-gray-500/50"
+                                                           value="" type="password" required
+                                                           name="password_confirmation"/>
+                                                    @error('password_confirmation')
+                                                    <p class="mt-2 text-sm text-red-600" id="email-error">
+                                                        {{$message}}
+                                                    </p>
+                                                    @enderror
+                                                </dd>
+                                            </div>
+                                            <div
+                                                class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-b sm:border-gray-200">
+                                                <dt class="text-sm font-medium text-white">Search Engine</dt>
+                                                <dd class="mt-1 flex  sm:mt-0 sm:col-span-2">
+                                                    <div class="mt-1 flex  shadow-sm">
+                                                        <span
+                                                            class="inline-flex items-center px-3 bg-gray-900 text-white sm:text-sm">
+                                                            <span class="flex-grow-0 mr-2">
+                                                                <span class="text-sm font-medium text-white"
+                                                                      id="availability-label">
+                                                                            <i class="fa-brands fa-2xl fa-google"></i>
+                                                                </span>
+                                                            </span>
+                                                        <button type="button"
+                                                                id="toggle"
+                                                                class="bg-gray-600 relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                                                role="switch" aria-checked="false"
+                                                                aria-labelledby="annual-billing-label">
+                                                            <span aria-hidden="true" id="point"
+                                                                  class="translate-x-0 pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow transform ring-0 transition ease-in-out duration-200">
+                                                            </span>
+                                                        </button>
+                                                        <input type="text" hidden value="{{$user->search_engine}}"
+                                                               id="toggleValue" name="search_engine">
+                                                            <span class="ml-3" id="annual-billing-label">
+                                                                <i class="fa-brands fa-2xl fa-yandex-international"></i>
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                </dd>
+                                            </div>
+                                        </dl>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <button type="submit"
+                                class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+                          <span
+                              class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                              Update
+                          </span>
+                        </button>
                     </div>
                 </div>
+            </main>
+        </div>
+    </form>
+    <script>
+        $(document).ready(function () {
+            if ($('#toggleValue').val() === "1") {
+                $('#toggle').addClass("bg-indigo-600");
+                $('#point').addClass("translate-x-5");
+            }
 
-                <div class="pt-8 space-y-6 sm:pt-10 sm:space-y-5">
-                    <div>
-                        <h3 class="text-lg leading-6 font-medium text-gray-900">Personal Information</h3>
-                        <p class="mt-1 max-w-2xl text-sm text-gray-500">Use a permanent address where you can receive mail.</p>
-                    </div>
-                    <div class="space-y-6 sm:space-y-5">
-                        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label for="first-name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> First name </label>
-                            <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                <input type="text" name="first-name" id="first-name" autocomplete="given-name" class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
-                            </div>
-                        </div>
-
-                        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label for="last-name" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Last name </label>
-                            <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                <input type="text" name="last-name" id="last-name" autocomplete="family-name" class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
-                            </div>
-                        </div>
-
-                        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label for="email" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Email address </label>
-                            <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                <input id="email" name="email" type="email" autocomplete="email" class="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md">
-                            </div>
-                        </div>
-
-                        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label for="country" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Country </label>
-                            <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                <select id="country" name="country" autocomplete="country-name" class="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
-                                    <option>United States</option>
-                                    <option>Canada</option>
-                                    <option>Mexico</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label for="street-address" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> Street address </label>
-                            <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                <input type="text" name="street-address" id="street-address" autocomplete="street-address" class="block max-w-lg w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md">
-                            </div>
-                        </div>
-
-                        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label for="city" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> City </label>
-                            <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                <input type="text" name="city" id="city" autocomplete="address-level2" class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
-                            </div>
-                        </div>
-
-                        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label for="region" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> State / Province </label>
-                            <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                <input type="text" name="region" id="region" autocomplete="address-level1" class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
-                            </div>
-                        </div>
-
-                        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-                            <label for="postal-code" class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"> ZIP / Postal code </label>
-                            <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code" class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="divide-y divide-gray-200 pt-8 space-y-6 sm:pt-10 sm:space-y-5">
-                    <div>
-                        <h3 class="text-lg leading-6 font-medium text-gray-900">Notifications</h3>
-                        <p class="mt-1 max-w-2xl text-sm text-gray-500">We'll always let you know about important changes, but you pick what else you want to hear about.</p>
-                    </div>
-                    <div class="space-y-6 sm:space-y-5 divide-y divide-gray-200">
-                        <div class="pt-6 sm:pt-5">
-                            <div role="group" aria-labelledby="label-email">
-                                <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-baseline">
-                                    <div>
-                                        <div class="text-base font-medium text-gray-900 sm:text-sm sm:text-gray-700" id="label-email">By Email</div>
-                                    </div>
-                                    <div class="mt-4 sm:mt-0 sm:col-span-2">
-                                        <div class="max-w-lg space-y-4">
-                                            <div class="relative flex items-start">
-                                                <div class="flex items-center h-5">
-                                                    <input id="comments" name="comments" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                                                </div>
-                                                <div class="ml-3 text-sm">
-                                                    <label for="comments" class="font-medium text-gray-700">Comments</label>
-                                                    <p class="text-gray-500">Get notified when someones posts a comment on a posting.</p>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="relative flex items-start">
-                                                    <div class="flex items-center h-5">
-                                                        <input id="candidates" name="candidates" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                                                    </div>
-                                                    <div class="ml-3 text-sm">
-                                                        <label for="candidates" class="font-medium text-gray-700">Candidates</label>
-                                                        <p class="text-gray-500">Get notified when a candidate applies for a job.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div>
-                                                <div class="relative flex items-start">
-                                                    <div class="flex items-center h-5">
-                                                        <input id="offers" name="offers" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                                                    </div>
-                                                    <div class="ml-3 text-sm">
-                                                        <label for="offers" class="font-medium text-gray-700">Offers</label>
-                                                        <p class="text-gray-500">Get notified when a candidate accepts or rejects an offer.</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="pt-6 sm:pt-5">
-                            <div role="group" aria-labelledby="label-notifications">
-                                <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-baseline">
-                                    <div>
-                                        <div class="text-base font-medium text-gray-900 sm:text-sm sm:text-gray-700" id="label-notifications">Push Notifications</div>
-                                    </div>
-                                    <div class="sm:col-span-2">
-                                        <div class="max-w-lg">
-                                            <p class="text-sm text-gray-500">These are delivered via SMS to your mobile phone.</p>
-                                            <div class="mt-4 space-y-4">
-                                                <div class="flex items-center">
-                                                    <input id="push-everything" name="push-notifications" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
-                                                    <label for="push-everything" class="ml-3 block text-sm font-medium text-gray-700"> Everything </label>
-                                                </div>
-                                                <div class="flex items-center">
-                                                    <input id="push-email" name="push-notifications" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
-                                                    <label for="push-email" class="ml-3 block text-sm font-medium text-gray-700"> Same as email </label>
-                                                </div>
-                                                <div class="flex items-center">
-                                                    <input id="push-nothing" name="push-notifications" type="radio" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300">
-                                                    <label for="push-nothing" class="ml-3 block text-sm font-medium text-gray-700"> No push notifications </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="pt-5">
-                <div class="flex justify-end">
-                    <button type="button" class="bg-white py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Cancel</button>
-                    <button type="submit" class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Save</button>
-                </div>
-            </div>
-        </form>
-    </div>
+            $('#toggle').click(function () {
+                $('#toggle').toggleClass("bg-gray-200");
+                $('#toggle').toggleClass("bg-indigo-600");
+                $('#point').toggleClass("translate-x-0");
+                $('#point').toggleClass("translate-x-5");
+                $('#toggleValue').val() === "0" ? $('#toggleValue').val("1") : $('#toggleValue').val("0");
+            });
+        })
+    </script>
 @endsection

@@ -1,6 +1,6 @@
 @extends('layouts.main')
 @section('content')
-    <div class="bg-white">
+    <div class="bg-gray-900">
         <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
             <div class="lg:grid lg:grid-cols-2 lg:gap-x-8 lg:items-start">
                 <!-- Image gallery -->
@@ -40,45 +40,34 @@
                                 </div>
                             </div>
                         @endforeach
-                        <!-- More images... -->
                     </div>
                 </div>
 
                 <!-- Product info -->
                 <div class="mt-10 px-4 sm:px-0 sm:mt-16 lg:mt-0">
-                    <h1 class="text-3xl font-extrabold tracking-tight text-gray-900">{{$game->name}}</h1>
+                    <h1 class="text-3xl font-extrabold tracking-tight text-white">{{$game->name}}</h1>
 
                     <div class="mt-3">
-                        <h2 class="sr-only">Product information</h2>
-                        <p class="text-3xl text-gray-900">{{$game->released ?? 'N/A'}}</p>
+                        <p class="text-3xl text-white">{{$game->released ?? 'N/A'}}</p>
                     </div>
-
-                    {{--                    <div class="mt-6">--}}
-                    {{--                        <h3 class="sr-only">Description</h3>--}}
-
-                    {{--                        <div class="text-base text-gray-700 space-y-6">--}}
-                    {{--                            <p>The Zip Tote Basket is the perfect midpoint between shopping tote and comfy backpack.--}}
-                    {{--                                With convertible straps, you can hand carry, should sling, or backpack this convenient--}}
-                    {{--                                and spacious bag. The zip top and durable canvas construction keeps your goods protected--}}
-                    {{--                                for all-day use.</p>--}}
-                    {{--                        </div>--}}
-                    {{--                    </div>--}}
 
                     <div class="grid grid-cols-3">
                         @auth
-                            <form action="{{route('game.search.save')}}" method="post" class="mt-4 col">
-                                @csrf
-                                <div class="flex sm:flex-col1">
-                                    <input type="text" hidden name="rawgGameId" value="{{$game->rawg_id}}">
-                                    <button type="submit"
-                                            class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
+                            @if(!$tracking)
+                                <form action="{{route('game.search.save')}}" method="post" class="mt-4 col">
+                                    @csrf
+                                    <div class="flex sm:flex-col1">
+                                        <input type="text" hidden name="rawgGameId" value="{{$game->rawg_id}}">
+                                        <button type="submit"
+                                                class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white  focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800">
                                   <span
-                                      class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                      class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                       Track this game
                                   </span>
-                                    </button>
-                                </div>
-                            </form>
+                                        </button>
+                                    </div>
+                                </form>
+                            @endif
                             @if($tracking)
                                 <form action="{{route('game.search.delete')}}" method="post" class="mt-4 col">
                                     @method('delete')
@@ -87,9 +76,9 @@
                                         <input type="text" hidden name="userId" value="{{\Illuminate\Support\Facades\Auth::user()->id}}">
                                         <input type="text" hidden name="gameId" value="{{$game->id}}">
                                         <button
-                                            class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
+                                            class="relative inline-flex items-center justify-center p-0.5  mb-2 mr-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">
                                       <span
-                                          class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                          class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                           Stop tracking
                                       </span>
                                         </button>
@@ -99,13 +88,13 @@
                         @endauth
                         <div class="col-span-2 mt-4">
                             <div class=" flex sm:flex-col1">
-                                <button
-                                    class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
+                                <a href="https://rawg.io/games/{{$game->slug}}" target="_blank"
+                                    class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800">
                                     <span
-                                        class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0">
+                                        class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-gray-900 rounded-md group-hover:bg-opacity-0">
                                                                                 Additional Information about this game.
                                     </span>
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -113,13 +102,14 @@
                     <section aria-labelledby="details-heading" class="mt-12">
                         <h2 id="details-heading" class="sr-only">Additional details</h2>
 
-                        <div id="accordion-open" data-accordion="open">
+                        <div id="accordion-open" data-accordion="open" >
                             <h2 id="accordion-open-heading-1">
                                 <button type="button"
-                                        class="flex items-center justify-between w-full p-5 font-medium text-left border border-b-0 border-gray-200 rounded-t-xl focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-800 bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-white"
-                                        data-accordion-target="#accordion-open-body-1" aria-expanded="true"
-                                        aria-controls="accordion-open-body-1">
-                                    <span class="flex items-center">Platforms</span>
+                                        class="flex items-center justify-between w-full p-5 font-medium text-left border border-b-0 border-gray-600 rounded-t-xl focus:ring-4 focus:ring-gray-800 hover:bg-gray-600 bg-gray-900 text-white"
+                                        data-accordion-target="#accordion-open-body-1" aria-expanded="false"
+                                        aria-controls="accordion-open-body-1"
+                                        style="background-color: #374151;">
+                                    <span class="flex items-center text-white">Platforms</span>
                                     <svg data-accordion-icon="" class="w-6 h-6 rotate-180 shrink-0" fill="currentColor"
                                          viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                                         <path fill-rule="evenodd"
@@ -130,19 +120,20 @@
                             </h2>
                             <div id="accordion-open-body-1" class="" aria-labelledby="accordion-open-heading-1">
                                 <div
-                                    class="p-5 font-light border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                                    class="p-5 font-light border border-b-0 border-gray-700 dark:bg-gray-900">
                                     <ul class="pl-2 list-disc">
                                         @foreach($game->platforms as $item)
-                                            <li>{{$item->platform->name}}</li>
+                                            <li class="text-white">{{$item->platform->name}}</li>
                                         @endforeach
                                     </ul>
                                 </div>
                             </div>
                             <h2 id="accordion-open-heading-2">
                                 <button type="button"
-                                        class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                                        class="flex items-center justify-between w-full p-5 font-medium text-left border border-b-0 border-gray-600 focus:ring-4 focus:ring-gray-800 hover:bg-gray-600 bg-gray-900 text-white"
                                         data-accordion-target="#accordion-open-body-2" aria-expanded="false"
-                                        aria-controls="accordion-open-body-2">
+                                        aria-controls="accordion-open-body-2"
+                                        style="background-color: #374151; color: white">
                                     <span class="flex itms-center">
                                         Genres</span>
                                     <svg data-accordion-icon="" class="w-6 h-6 shrink-0" fill="currentColor"
@@ -155,10 +146,10 @@
                             </h2>
                             <div id="accordion-open-body-2" class="hidden" aria-labelledby="accordion-open-heading-2">
                                 <div
-                                    class="p-5 font-light border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                                    class="p-5 text-white border border-b-0 border-gray-700 bg-gray-900">
                                     <ul class="pl-2 list-disc">
                                         @foreach($game->genres as $item)
-                                            <li>{{$item->genre->name}}</li>
+                                            <li class="text-white">{{$item->genre->name}}</li>
                                         @endforeach
                                     </ul>
                                 </div>
@@ -166,9 +157,10 @@
 
                             <h2 id="accordion-open-heading-3">
                                 <button type="button"
-                                        class="flex items-center justify-between w-full p-5 font-medium text-left text-gray-500 border border-b-0 border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                                        class="flex items-center justify-between w-full p-5 font-medium text-left border border-b-0 border-gray-600 focus:ring-4 focus:ring-gray-800 hover:bg-gray-600 bg-gray-900 text-white"
                                         data-accordion-target="#accordion-open-body-3" aria-expanded="false"
-                                        aria-controls="accordion-open-body-3">
+                                        aria-controls="accordion-open-body-3"
+                                        style="background-color: #374151; color: white">
                                     <span class="flex items-center">
                                         Stores</span>
                                     <svg data-accordion-icon="" class="w-6 h-6 shrink-0" fill="currentColor"
@@ -181,11 +173,12 @@
                             </h2>
                             <div id="accordion-open-body-3" class="hidden" aria-labelledby="accordion-open-heading-2">
                                 <div
-                                    class="p-5 font-light border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+                                    class="p-5 text-white border border-b-0 border-gray-700 bg-gray-900">
+
                                     <div class="grid grid-cols-2 gap-1">
                                         @foreach($game->stores as $item)
                                             <a href="{{$item->store_link}}"
-                                               class="bg-grey-light hover:bg-grey border-2 border-black-500/100 text-grey-darkest font-bold py-2 px-4 rounded inline-flex items-center">
+                                               class="bg-grey-light hover:bg-grey border-2 border-black-500/100 text-white font-bold py-2 px-4 rounded inline-flex items-center">
                                                 {!!$item->store->icon!!}
                                                 <span class="pl-2">{{$item->store->name}}</span>
                                             </a>

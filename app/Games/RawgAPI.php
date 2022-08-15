@@ -31,6 +31,8 @@ class RawgAPI
         $response = Http::get('https://api.rawg.io/api/games', [
             'key' => config('services.rawg.key'),
             'search' => $query,
+            'search_precise' => true,
+            'search_exact' => true,
         ])->json();
 
         return $this->nextPage($response, false);

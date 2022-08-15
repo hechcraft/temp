@@ -11,7 +11,6 @@ class SearchController extends Controller
 {
     public function __construct(private GameHelpers $gameHelpers)
     {
-        $this->gameHelpers = $gameHelpers;
     }
 
     public function index(): View

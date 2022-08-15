@@ -13,12 +13,11 @@ class ProfileController extends Controller
 {
     public function index(User $user): \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Contracts\Foundation\Application
     {
-        return view('auth', ['user' => $user]);
+        return view('user.profile', ['user' => $user]);
     }
 
     public function update(User $user, Request $request)
     {
-
         $request->validate([
             'name' => ['string', 'max:255'],
             'email' => ['string', 'email', 'max:255'],
@@ -29,19 +28,11 @@ class ProfileController extends Controller
 
         $user->password = Hash::make($request->password);
 
-        if ($request->hasFile('avatar')){
-            $request->validate([
-                'avatar' => 'mimes:jpeg,bmp,png',
-            ]);
-
-            $request->avatar->store('product', 'public');
-
-            $user->avatar = $request->avatar->hashName();
-        }
+        if (!is_null($request->file('avatart')))
+            $user->avatar = $request->file('avatar')->store('avatar');
 
         $user->save();
 
-        dd($user);
         return redirect()->route('main');
     }
 }

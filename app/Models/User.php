@@ -46,6 +46,6 @@ class User extends Authenticatable
 
     public function trackedGames()
     {
-        return $this->hasMany(UserTraking::class, 'user_id', 'id');
+        return $this->hasMany(UserTracking::class, 'user_id', 'id');
     }
 }

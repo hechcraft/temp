@@ -10,14 +10,16 @@ use App\Helpers\GameTracking;
 use App\Models\Game;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 class GameSearchController extends Controller
 {
     public function __construct(
-        private RawgAPI   $rawgAPI,
-        private SaveGames $saveGames,
+        private RawgAPI     $rawgAPI,
+        private SaveGames   $saveGames,
         private GameHelpers $gameHelpers,
+        private GameTracking $gameTracking,
     )
     {
     }
@@ -36,7 +38,7 @@ class GameSearchController extends Controller
             ['search' => $this->rawgAPI->gameSearch($request->search), 'query' => $searchQuery]);
     }
 
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\RedirectResponse
     {
 
         $request->validate([
@@ -46,31 +48,21 @@ class GameSearchController extends Controller
         $currentGame = $this->gameHelpers->gameByRawgId($request->rawgGameId);
 
         if (!$currentGame) {
-            $this->saveGames->storeGames(
+            $currentGame = $this->saveGames->storeGames(
                 $this->rawgAPI->gameSearchById($request->rawgGameId),
                 $this->rawgAPI->getGameAtrributes($request->rawgGameId, GameAttributes::Screenshots),
                 $this->rawgAPI->getGameAtrributes($request->rawgGameId, GameAttributes::Stores)
             );
-
-            return redirect()->route('main');
         }
 
+        $this->gameTracking->addGame(Auth::id(), $currentGame->id);
 
-        if (Auth::check()) {
-            $gameTracking = new GameTracking(Auth::id(), $currentGame->id);
-            $gameTracking->addGame();
-
-            return redirect()->route('main');
-        }
-
-        return redirect()->route('error');
+        return redirect()->route('main')->with('status', 'Game added!');
     }
 
     public function destroy(Request $request)
     {
-        $gameTracking = new GameTracking($request->userId, $request->gameId);
-
-        $gameTracking->deleteGame();
+        $this->gameTracking->deleteGame($request->userId, $request->gameId);
 
         return redirect()->route('main');
     }
