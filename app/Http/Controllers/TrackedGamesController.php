@@ -3,23 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserTracking;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TrackedGamesController extends Controller
 {
-    /**
-     * Handle the incoming request.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function index(Request $request)
+    public function index(Request $request): View|Factory|Application
     {
-        return view('user.trackedGames', ['games' => Auth::user()->trackedGames]);
+        return view('user.trackedGames', ['games' => $request->user()->trackedGames]);
     }
 
-    public function delete(UserTracking $tracking)
+    public function delete(UserTracking $tracking): RedirectResponse
     {
         $tracking->delete();
         return redirect()->route('tracked.games');

@@ -2,13 +2,12 @@
 
 namespace App\Jobs;
 
+use App\Games\Attributes\SaveStores;
 use App\Games\GameAttributes;
 use App\Games\RawgAPI;
 use App\Games\SaveGames;
-use App\Helpers\GameHelpers;
-use App\Models\Game;
-use Carbon\Carbon;
-use Decimal\Decimal;
+use App\Helpers\Services\GameService;
+use App\Helpers\Services\StoreService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -35,7 +34,8 @@ class  FetchRawg implements ShouldQueue
      *
      * @return void
      */
-    public function handle(RawgAPI $rawgAPI, SaveGames $saveGames, GameHelpers $gameHelpers)
+    public function handle(RawgAPI     $rawgAPI, SaveGames $saveGames, StoreService $storeService,
+                           GameService $gameHelpers, SaveStores $saveStores)
     {
         $response = $rawgAPI->getPopularGames($this->date);
 
@@ -55,13 +55,12 @@ class  FetchRawg implements ShouldQueue
                     $saveGames->updateGames($item);
                 }
 
-                if ($gameHelpers->storeMd5($currentGameStores) !== $gameHelpers->storeMd5($currentGame->stores)) {
-                    $saveGames->updateStoresLink($currentGameStores);
+                if ($storeService->storeMd5($currentGameStores) !== $storeService->storeMd5($currentGame->stores)) {
+                    $saveStores->update($currentGameStores);
                 }
 
             } catch (\Exception $exception) {
-                Log::info($exception);
-                Log::info((array)$item);
+                Log::info($exception, (array) $item);
             }
         }
     }

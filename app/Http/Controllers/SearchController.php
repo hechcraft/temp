@@ -2,20 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\GameHelpers;
+use App\Helpers\Services\GameService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class SearchController extends Controller
 {
-    public function __construct(private GameHelpers $gameHelpers)
+    public function __construct(private GameService $gameHelpers)
     {
     }
 
     public function index(): View
     {
-        return view('welcome', ['games' => $this->gameHelpers->gameSortByRelease(), 'user' => Auth::user()]);
+        return view('welcome', ['games' => $this->gameHelpers->gameSortByRelease()]);
     }
 
     public function search(Request $request)

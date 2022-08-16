@@ -1,6 +1,13 @@
 <?php
 
-use Illuminate\Support\Facades\Http;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\ErrorPageController;
+use App\Http\Controllers\GameController;
+use App\Http\Controllers\GameSearchController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SearchController;
+use App\Http\Controllers\TrackedGamesController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,32 +21,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\SearchController::class, 'index'])->name('main');
-Route::get('/search', [\App\Http\Controllers\SearchController::class, 'search'])->name('search');
+Route::get('/', [SearchController::class, 'index'])->name('main');
+Route::get('/search', [SearchController::class, 'search'])->name('search');
 
-Route::get('/gameSearch', [\App\Http\Controllers\GameSearchController::class, 'index'])->name('game.search');
+Route::get('/game-search', [GameSearchController::class, 'index'])->name('game.search');
 
-Route::get('/game/{slug}', [\App\Http\Controllers\GameController::class, 'show']);
+Route::get('/game/{slug}', [GameController::class, 'show']);
 
 
 Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function () {
-    Route::post('/gameSearch', [\App\Http\Controllers\GameSearchController::class, 'store'])->name('game.search.save');
-    Route::delete('/gameSearch', [\App\Http\Controllers\GameSearchController::class, 'destroy'])->name('game.search.delete');
-    Route::get('/user/profile/{user}', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
-    Route::put('/user/profile/{user}', [\App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
-    Route::get('/user/trackedGames', [\App\Http\Controllers\TrackedGamesController::class, 'index'])->name('tracked.games');
-    Route::delete('/user/trackedGames/{tracking}', [\App\Http\Controllers\TrackedGamesController::class, 'delete'])->name('tracked.games.delete');
-});
+    Route::post('/game-search', [GameSearchController::class, 'store'])->name('game.search.save');
+    Route::delete('/game-search', [GameSearchController::class, 'destroy'])->name('game.search.delete');
 
-Route::get('/auth', function () {
-    return view('auth', ['user' => Auth::user()]);
+    Route::get('/user/profile/{user}', [ProfileController::class, 'index'])->name('profile');
+    Route::put('/user/profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
+
+    Route::get('/user/tracked-games', [TrackedGamesController::class, 'index'])->name('tracked.games');
+    Route::delete('/user/tracked-games/{tracking}', [TrackedGamesController::class, 'delete'])->name('tracked.games.delete');
 });
 
 Auth::routes();
-Route::get('/logout', function () {
-    Auth::logout();
-    return redirect()->route('main');
-})->name('logout');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/error', \App\Http\Controllers\ErrorPageController::class)->name('error');
+Route::get('/logout', LogoutController::class)->name('logout');
+
+Route::get('/error', ErrorPageController::class)->name('error');
+

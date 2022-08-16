@@ -27,20 +27,16 @@ class UpdateGameList extends Command
      *
      * @return void
      */
-    public function handle()
+    public function handle(): void
     {
-        $dates = collect();
-        for ($i = 1; $i < 7; $i++){
-            $date = sprintf('%s,%s',
-                Carbon::now()->addMonths($i - 1)->toDateString(),
-                Carbon::now()->addMonths($i)->toDateString(),
+        foreach (range(0, 6) as $month) {
+            $range = sprintf('%s,%s',
+                Carbon::now()->addMonths($month)->toDateString(),
+                Carbon::now()->addMonths($month + 1 )->toDateString(),
             );
 
-            $dates->push($date);
-        }
+            FetchRawg::dispatch($range);
 
-        foreach ($dates as $date){
-            FetchRawg::dispatch($date);
         }
     }
 }

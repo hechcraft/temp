@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Helpers\GameTracking;
 use App\Models\Game;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Auth;
 
 class GameController extends Controller
@@ -12,14 +15,11 @@ class GameController extends Controller
     {
     }
 
-    public function show($slug)
+    public function show($slug): Factory|View|Application
     {
         $game = Game::firstWhere('slug', $slug);
 
-        $screenshots = explode(',', $game->images->screenshots);
-        array_pop($screenshots);
-
-        return view('game.show', ['screenshots' => $screenshots, 'game' => $game,
-            'tracking' => $this->gameTracking->issetGameTracking(Auth::id(), $game->id)]);
+        return view('game.show', ['game' => $game,
+            'tracking' => $this->gameTracking->tracksGame(Auth::id(), $game->id)]);
      }
 }

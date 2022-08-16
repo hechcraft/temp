@@ -71,7 +71,7 @@
                 </div>
             </form>
             @auth
-                @include('components.slider2', ['user' => $user])
+                @include('components.slider2')
             @endauth
         </div>
     </div>

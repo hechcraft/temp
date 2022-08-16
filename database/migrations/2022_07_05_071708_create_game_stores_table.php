@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('game_stores', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('game_id')->constrained('games');
-            $table->foreignId('store_id')->constrained('stores');
+            $table->foreignId('game_id')->constrained('games')->cascadeOnDelete();
+            $table->foreignId('store_id')->constrained('stores')->cascadeOnDelete();
             $table->string('store_link')->nullable();
         });
     }

@@ -44,7 +44,7 @@ class RegisterController extends Controller
 
     public function showRegistrationForm()
     {
-        return view('auth.register', ['image' => Images::inRandomOrder()->first()->background_image]);
+        return view('auth.register');
     }
 
     /**

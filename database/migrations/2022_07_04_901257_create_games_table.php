@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('name');
             $table->string('released')->nullable();
-            $table->foreignId('image_id')->nullable()->constrained('images');
             $table->timestamps();
         });
     }

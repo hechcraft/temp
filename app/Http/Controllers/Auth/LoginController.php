@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\Images;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Nette\Utils\Image;
 
 class LoginController extends Controller
 {
@@ -42,6 +40,6 @@ class LoginController extends Controller
 
     public function showLoginForm()
     {
-        return view('auth.login', ['image' => Images::inRandomOrder()->first()->background_image]);
+        return view('auth.login');
     }
 }

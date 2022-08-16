@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->string('background_image');
-            $table->text('screenshots');
+            $table->foreignId('game_id')->nullable()->constrained('games')->cascadeOnDelete();
+            $table->string('url');
+            $table->string('type');
         });
     }
 

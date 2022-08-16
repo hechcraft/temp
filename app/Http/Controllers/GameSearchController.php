@@ -5,40 +5,44 @@ namespace App\Http\Controllers;
 use App\Games\GameAttributes;
 use App\Games\RawgAPI;
 use App\Games\SaveGames;
-use App\Helpers\GameHelpers;
 use App\Helpers\GameTracking;
-use App\Models\Game;
+use App\Helpers\PlatformsHelper;
+use App\Helpers\Services\GameService;
+use App\Helpers\Services\SearchService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
 class GameSearchController extends Controller
 {
     public function __construct(
-        private RawgAPI     $rawgAPI,
-        private SaveGames   $saveGames,
-        private GameHelpers $gameHelpers,
-        private GameTracking $gameTracking,
+        private SaveGames       $saveGames,
+        private GameService     $gameHelpers,
+        private GameTracking    $gameTracking,
+        private PlatformsHelper $platformsHelper,
+        private SearchService   $searchService,
     )
     {
     }
 
-    /**
-     * Handle the incoming request.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
-     */
-    public function index(Request $request)
+    public function index(Request $request): Factory|View|Application
     {
         $searchQuery = Str::after(url()->full(), '?search=');
 
+        $search = $this->searchService->gameSearch($request->search);
+        foreach ($search as $item) {
+            $platformsIcon = $this->platformsHelper->printPlatforms($item->platforms);
+        }
+
         return view('gameSearch.gameSearch',
-            ['search' => $this->rawgAPI->gameSearch($request->search), 'query' => $searchQuery]);
+            ['search' => $search, 'query' => $searchQuery, 'platformsIcon' => $platformsIcon]);
     }
 
-    public function store(Request $request): \Illuminate\Http\RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
 
         $request->validate([
@@ -48,11 +52,7 @@ class GameSearchController extends Controller
         $currentGame = $this->gameHelpers->gameByRawgId($request->rawgGameId);
 
         if (!$currentGame) {
-            $currentGame = $this->saveGames->storeGames(
-                $this->rawgAPI->gameSearchById($request->rawgGameId),
-                $this->rawgAPI->getGameAtrributes($request->rawgGameId, GameAttributes::Screenshots),
-                $this->rawgAPI->getGameAtrributes($request->rawgGameId, GameAttributes::Stores)
-            );
+            $currentGame = $this->saveGames->storeNewGame($request->rawgGameId);
         }
 
         $this->gameTracking->addGame(Auth::id(), $currentGame->id);
@@ -60,9 +60,9 @@ class GameSearchController extends Controller
         return redirect()->route('main')->with('status', 'Game added!');
     }
 
-    public function destroy(Request $request)
+    public function destroy(Request $request): RedirectResponse
     {
-        $this->gameTracking->deleteGame($request->userId, $request->gameId);
+        $this->gameTracking->deleteGame($request->user()->id, $request->gameId);
 
         return redirect()->route('main');
     }

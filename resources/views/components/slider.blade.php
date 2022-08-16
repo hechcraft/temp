@@ -20,7 +20,7 @@
                      class="h-full flex lg:gap-8 md:gap-6 gap-14 items-center justify-start transition ease-out duration-700">
                     @foreach($games as $game)
                         <a href="/game/{{$game->slug}}" class="flex flex-shrink-0 relative w-full sm:w-auto">
-                            <img src="{{$game->images->background_image}}"
+                            <img src="{{$game->images->where('type', 'cover')->first()->url}}"
                                  class="object-cover object-center w-72 h-96"/>
                             <div class="bg-gray-800 bg-opacity-30 absolute w-full h-full p-6">
                                     <h2 class="lg:text-xl leading-4 text-base lg:leading-5 text-white dark:text-gray-900">

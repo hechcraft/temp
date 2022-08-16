@@ -6,35 +6,29 @@ use App\Models\UserTracking;
 
 class GameTracking
 {
-    public function __construct()
-    {
-    }
-
     public function addGame(int $userId, int $gameId): void
     {
-        UserTracking::create([
+        UserTracking::firstOrCreate([
             'user_id' => $userId,
             'game_id' => $gameId,
         ]);
     }
 
-    public function deleteGame(int $userId, int $gameId): \Illuminate\Http\RedirectResponse
+    public function deleteGame(int $userId, int $gameId): void
     {
-        $this->currentGame($userId, $gameId)->delete();
-
-        return redirect()->route('main');
+        $this->findTrackingByUserIdAndGameId($userId, $gameId)->delete();
     }
 
-    public function issetGameTracking(int $userId, int $gameId): bool
+    public function tracksGame(int $userId, int $gameId): bool
     {
-        $currentGame = $this->currentGame($userId, $gameId);
+        $currentGame = $this->findTrackingByUserIdAndGameId($userId, $gameId);
 
         if (isset($currentGame)) return true;
 
         return false;
     }
 
-    private function currentGame(int $userId, int $gameId)
+    private function findTrackingByUserIdAndGameId(int $userId, int $gameId)
     {
         return UserTracking::where('user_id', $userId)
             ->where('game_id', $gameId)

@@ -2,28 +2,36 @@
 
 namespace App\Games;
 
-use App\Helpers\GameHelpers;
+use App\Games\Attributes\SaveGenres;
+use App\Games\Attributes\SavePlatforms;
+use App\Games\Attributes\SaveStores;
+use App\Helpers\Services\GameService;
 use App\Models\Game;
 use App\Models\Images;
+use Illuminate\Support\Collection;
+use Nette\Utils\Image;
 
 class SaveGames
 {
     public function __construct(
-        private SaveAttributes $saveAttributes,
-        private GameHelpers    $gameHelpers,
+        private GameService   $gameHelpers,
+        private SaveGenres    $saveGenres,
+        private SavePlatforms $savePlatforms,
+        private SaveStores    $saveStores,
+        private SaveImages    $saveImages,
+        private RawgAPI       $rawgAPI,
     )
     {
     }
 
-
     /**
      * @param RawgGame $rawgGame
-     * @param RawgGameScreenshot $gameScreenshots
-     * @param RawgStoreLink $storeLinks
-     * @return void
+     * @param Collection<RawgGameScreenshot> $gameScreenshots
+     * @param Collection<RawgStoreLink> $storeLinks
+     * @return Game
      */
-    public function storeGames(RawgGame                       $rawgGame, \Illuminate\Support\Collection $gameScreenshots,
-                               \Illuminate\Support\Collection $storeLinks): Game
+    public function storeGames(RawgGame   $rawgGame, Collection $gameScreenshots,
+                               Collection $storeLinks): Game
     {
         $game = Game::create([
             'slug' => $rawgGame->slug,
@@ -32,13 +40,12 @@ class SaveGames
             'rawg_id' => $rawgGame->rawgId,
         ]);
 
-        $game->image_id = $this->saveScreenshots($gameScreenshots, $rawgGame->backgroundImage);
-
         $game->save();
 
-        $this->saveAttributes->save($rawgGame, $game->id);
-
-        $this->saveStoreLinks($game, $storeLinks);
+        $this->saveImages->saveScreenshots($gameScreenshots, $rawgGame->backgroundImage, $game->id);
+        $this->savePlatforms->store($rawgGame, $game->id);
+        $this->saveGenres->store($rawgGame, $game->id);
+        $this->saveStores->store($storeLinks, $game->id);
 
         return $game;
     }
@@ -56,45 +63,12 @@ class SaveGames
         return $game;
     }
 
-    public function updateStoresLink(\Illuminate\Support\Collection $stores)
+    public function storeNewGame(int $rawgId): Game
     {
-        $game = $this->gameHelpers->gameByRawgId($stores[0]->gameId);
-
-        foreach ($stores as $store) {
-            foreach ($game->stores as $gameStore) {
-                if ($gameStore->store_id === $store->storeId) {
-                    $gameStore->store_link = $store->url;
-                    $gameStore->save();
-                }
-            }
-        }
+        return $this->storeGames(
+            $this->rawgAPI->gameSearchById($rawgId),
+            $this->rawgAPI->getGameAtrributes($rawgId, GameAttributes::Screenshots),
+            $this->rawgAPI->getGameAtrributes($rawgId, GameAttributes::Stores)
+        );
     }
-
-    private function saveScreenshots(\Illuminate\Support\Collection $screenshots, string $backgroundImage): int
-    {
-        $screenshotStr = '';
-        foreach ($screenshots as $screenshot) {
-            $screenshotStr .= $screenshot->screenshot . ',';
-        }
-
-        $image = Images::create([
-            'background_image' => $backgroundImage,
-            'screenshots' => $screenshotStr,
-        ]);
-
-        return $image->id;
-    }
-
-    private function saveStoreLinks(Game $game, \Illuminate\Support\Collection $storeLinks): void
-    {
-        foreach ($storeLinks as $storeLink) {
-            foreach ($game->stores as $gameStore) {
-                if ($gameStore->store_id === $storeLink->storeId) {
-                    $gameStore->store_link = $storeLink->url;
-                    $gameStore->save();
-                }
-            }
-        }
-    }
-
 }

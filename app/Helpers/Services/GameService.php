@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Helpers\Services;
 
 use App\Games\RawgGame;
 use App\Models\Game;
 use Carbon\Carbon;
 
-class GameHelpers
+class GameService
 {
     public function gameByRawgId(int $id): ?Game
     {
@@ -50,13 +50,5 @@ class GameHelpers
         ));
     }
 
-    public function storeMd5(\Illuminate\Support\Collection $stores): string
-    {
-        $md5 = '';
-        foreach ($stores as $store) {
-            $md5 .= $store->url ?? $store->store_link;
-        }
 
-        return md5($md5);
-    }
 }

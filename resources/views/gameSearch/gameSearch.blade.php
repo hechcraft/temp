@@ -4,10 +4,6 @@
         <div class="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8" style="padding-top: 0">
             <div class="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
                 @foreach($search as $item)
-                    @php
-                        $helper = app(\App\Helpers\PlatformsHelper::class);
-                        $platformsIcon = $helper->printPlatforms($item->platforms);
-                    @endphp
                     <div>
                         <div class="relative">
                             <div class="relative w-full h-72 rounded-lg overflow-hidden">
@@ -23,9 +19,14 @@
                                 </h3>
                                 <p class="mt-1 text-sm text-white">{{$item->released}}</p>
                                 <ul role="list" class="mt-auto pt-6 flex items-center justify-center space-x-3">
-                                    @foreach($platformsIcon as $icon)
+                                    @foreach($platformsIcon as $platforms => $icon)
                                         <li class="w-6 h-6">
-                                            {!! $icon !!}
+                                            @if($platforms === 'Nintendo' || $platforms === 'Wii')
+                                                <img src="{{$icon}}"
+                                                     class="w-full h-full object-center" style="filter: brightness(0) invert(1)">
+                                            @else
+                                                <i class="fa-brands {{$icon}}" style="color: white"></i>
+                                            @endif
                                         </li>
                                     @endforeach
                                 </ul>

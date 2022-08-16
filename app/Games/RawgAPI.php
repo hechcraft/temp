@@ -5,20 +5,18 @@ namespace App\Games;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 
-enum GameAttributes: string
-{
-    case Stores = 'stores';
-    case Screenshots = 'screenshots';
-}
-
 class RawgAPI
 {
+    public function __construct(private RawgResponse $rawgResponse)
+    {
+    }
+
     private array $dtoClasses = [
         'screenshots' => RawgGameScreenshot::class,
         'stores' => RawgStoreLink::class
     ];
 
-    public function getPopularGames(string $dates): \Illuminate\Support\Collection
+    public function getPopularGames(string $dates): Collection
     {
 
         $response = $this->getAllGames($dates);
@@ -26,32 +24,25 @@ class RawgAPI
         return $this->nextPage($response, true);
     }
 
-    public function gameSearch(string $query): \Illuminate\Support\Collection
+    public function gameSearch(string $query): Collection
     {
-        $response = Http::get('https://api.rawg.io/api/games', [
-            'key' => config('services.rawg.key'),
-            'search' => $query,
-            'search_precise' => true,
-            'search_exact' => true,
-        ])->json();
+        $response = $this->rawgResponse->response('', [
+                'search' => $query,
+                'search_precise' => true,
+                'search_exact' => true
+            ]);
 
         return $this->nextPage($response, false);
     }
 
     public function gameSearchById(int $rawgGameId): RawgGame
     {
-        $response = Http::get("https://api.rawg.io/api/games/$rawgGameId", [
-            'key' => config('services.rawg.key'),
-        ])->json();
-
-        return RawgGame::fromResponse($response);
+        return RawgGame::fromResponse($this->rawgResponse->response("/$rawgGameId"));
     }
 
-    public function getGameAtrributes(int $rawgGameId, GameAttributes $gameAttributes): \Illuminate\Support\Collection
+    public function getGameAtrributes(int $rawgGameId, GameAttributes $gameAttributes): Collection
     {
-        $response = Http::get("https://api.rawg.io/api/games/$rawgGameId/$gameAttributes->value", [
-            'key' => config('services.rawg.key'),
-        ])->json();
+        $response = $this->rawgResponse->response("/$rawgGameId/$gameAttributes->value");
 
         $attribute = collect();
         foreach (data_get($response, 'results') as $item) {
@@ -61,7 +52,20 @@ class RawgAPI
         return $attribute;
     }
 
-    private function nextPage($response, bool $sort): \Illuminate\Support\Collection
+    private function getAllGames(string $dates): array
+    {
+        $response = $this->rawgResponse->response('',[
+            'dates' => str_replace(' ', '', $dates),
+            'ordering' => '-added',
+            'parent_platforms' => '1,2,3,7',
+            'page_size' => 40,
+            'stores' => '1,2,3,5,6,11',
+        ]);
+
+        return $response;
+    }
+
+    private function nextPage($response, bool $sort): Collection
     {
         if (is_null(data_get($response, 'next'))) {
             return $this->ratingSort($response, true);
@@ -87,21 +91,8 @@ class RawgAPI
         return $games;
     }
 
-    private function getAllGames(string $dates): array
-    {
-        $response = Http::get('https://api.rawg.io/api/games', [
-            'dates' => str_replace(' ', '', $dates),
-            'ordering' => '-added',
-            'parent_platforms' => '1,2,3,7',
-            'page_size' => 40,
-            'stores' => '1,2,3,5,6,11',
-            'key' => config('services.rawg.key'),
-        ])->json();
 
-        return $response;
-    }
-
-    private function ratingSort(array $games, bool $sort): \Illuminate\Support\Collection
+    private function ratingSort(array $games, bool $sort): Collection
     {
         $gameSort = collect();
 

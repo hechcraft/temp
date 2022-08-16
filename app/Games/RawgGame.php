@@ -11,7 +11,7 @@ class RawgGame
         public readonly int $rawgId,
         public readonly string $backgroundImage,
         public readonly array $genres,
-        public readonly array $platforms,
+        public readonly ?array $platforms,
         public readonly ?array $stores,
     )
     {
