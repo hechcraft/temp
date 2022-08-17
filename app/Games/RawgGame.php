@@ -35,8 +35,32 @@ class RawgGame
             data_get($response, 'released') ?? 'N/A',
             data_get($response, 'id'),
             data_get($response, 'background_image') ?? asset('storage.jpg/defaultImage.jpg'),
-            RawgGenreDTO::fromResponse($response),
-            RawgPlatformDTO::fromResponse($response),
+            self::getGenres(data_get($response, 'genres')),
+            self::getPlatforms(data_get($response, 'platforms')),
         );
+    }
+
+    /**
+     * @param $genres
+     * @return Collection<RawgGenreDTO>
+     */
+    private static function getGenres($genres): Collection
+    {
+        $genresDTO = collect();
+        foreach ($genres as $genre){
+            $genresDTO->push(RawgGenreDTO::fromResponse($genre));
+        }
+
+        return $genresDTO;
+    }
+
+    private static function getPlatforms($platforms): Collection
+    {
+        $platformsDTO = collect();
+        foreach ($platforms as $platform){
+            $platformsDTO->push(RawgPlatformDTO::fromResponse($platform));
+        }
+
+        return $platformsDTO;
     }
 }

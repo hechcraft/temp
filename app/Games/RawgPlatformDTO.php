@@ -7,7 +7,7 @@ use Illuminate\Support\Collection;
 class RawgPlatformDTO
 {
     public function __construct(
-        public readonly int $id,
+        public readonly int    $id,
         public readonly string $name,
         public readonly string $slug,
     )
@@ -18,20 +18,13 @@ class RawgPlatformDTO
      * @param $response
      * @return Collection<RawgPlatformDTO>
      */
-    public static function fromResponse($response): Collection
+    public static function fromResponse($platform): RawgPlatformDTO
     {
-        $platforms = collect();
-        foreach (data_get($response, 'platforms') as $platform){
-            $platforms->push(
-                new self(
-                    data_get($platform, 'platform.id'),
-                    data_get($platform, 'platform.name'),
-                    data_get($platform, 'platform.slug'),
-                )
-            );
-        }
-
-        return $platforms;
+        return new self(
+            data_get($platform, 'platform.id'),
+            data_get($platform, 'platform.name'),
+            data_get($platform, 'platform.slug'),
+        );
     }
 
 }
