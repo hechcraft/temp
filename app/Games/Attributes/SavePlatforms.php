@@ -12,7 +12,7 @@ class SavePlatforms
         foreach ($rawgGame->platforms as $platform){
             GamePlatforms::create([
                 'game_id' => $gameId,
-                'platform_id' => data_get($platform, 'platform.id'),
+                'platform_id' => $platform->id,
             ]);
         }
     }

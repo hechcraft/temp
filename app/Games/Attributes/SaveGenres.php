@@ -12,7 +12,7 @@ class SaveGenres
         foreach ($rawgGame->genres as $genre){
             GameGenres::create([
                 'game_id' => $gameId,
-                'genre_id' => data_get($genre, 'id'),
+                'genre_id' => $genre->id,
             ]);
         }
     }

@@ -19,8 +19,10 @@ class GameTracking
         $this->findTrackingByUserIdAndGameId($userId, $gameId)->delete();
     }
 
-    public function tracksGame(int $userId, int $gameId): bool
+    public function tracksGame(?int $userId, int $gameId): bool
     {
+        if (is_null($userId)) return false;
+
         $currentGame = $this->findTrackingByUserIdAndGameId($userId, $gameId);
 
         if (isset($currentGame)) return true;

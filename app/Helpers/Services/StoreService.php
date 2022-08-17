@@ -2,7 +2,7 @@
 
 namespace App\Helpers\Services;
 
-use App\Games\RawgStoreLink;
+use App\Games\RawgStoreDTO;
 use Illuminate\Support\Collection;
 
 class StoreService

@@ -27,7 +27,7 @@ class SaveGames
     /**
      * @param RawgGame $rawgGame
      * @param Collection<RawgGameScreenshot> $gameScreenshots
-     * @param Collection<RawgStoreLink> $storeLinks
+     * @param Collection<RawgStoreDTO> $storeLinks
      * @return Game
      */
     public function storeGames(RawgGame   $rawgGame, Collection $gameScreenshots,

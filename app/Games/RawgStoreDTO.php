@@ -2,7 +2,7 @@
 
 namespace App\Games;
 
-class RawgStoreLink
+class RawgStoreDTO
 {
     public function __construct(
         public readonly int $id,
@@ -13,7 +13,8 @@ class RawgStoreLink
     {
     }
 
-    public static function fromRequest(array $rawgResponse): self {
+    public static function fromRequest(array $rawgResponse): RawgStoreDTO
+    {
         return new self(
             data_get($rawgResponse, 'id'),
             data_get($rawgResponse, 'store_id'),

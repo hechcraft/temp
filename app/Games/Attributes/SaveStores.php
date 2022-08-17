@@ -2,7 +2,7 @@
 
 namespace App\Games\Attributes;
 
-use App\Games\RawgStoreLink;
+use App\Games\RawgStoreDTO;
 use App\Helpers\Services\GameService;
 use App\Models\GameStores;
 use Illuminate\Support\Collection;
@@ -14,7 +14,7 @@ class SaveStores
     }
 
     /**
-     * @param Collection<RawgStoreLink> $storeLinks
+     * @param Collection<RawgStoreDTO> $storeLinks
      * @param int $gameId
      * @return void
      */
@@ -31,7 +31,7 @@ class SaveStores
 
 
     /**
-     * @param Collection<RawgStoreLink> $stores
+     * @param Collection<RawgStoreDTO> $stores
      * @return void
      */
     public function update(Collection $stores): void

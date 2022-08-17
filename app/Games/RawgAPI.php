@@ -13,7 +13,7 @@ class RawgAPI
 
     private array $dtoClasses = [
         'screenshots' => RawgGameScreenshot::class,
-        'stores' => RawgStoreLink::class
+        'stores' => RawgStoreDTO::class
     ];
 
     public function getPopularGames(string $dates): Collection
