@@ -8,7 +8,6 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class TrackedGamesController extends Controller
 {
@@ -20,6 +19,7 @@ class TrackedGamesController extends Controller
     public function delete(UserTracking $tracking): RedirectResponse
     {
         $tracking->delete();
+        /** @phpstan-ignore-next-line  */
         return redirect()->route('tracked.games');
     }
 }

@@ -20,8 +20,7 @@ class SaveGames
         private SaveStores    $saveStores,
         private SaveImages    $saveImages,
         private RawgAPI       $rawgAPI,
-    )
-    {
+    ) {
     }
 
     /**
@@ -30,9 +29,11 @@ class SaveGames
      * @param Collection<RawgStoreDTO> $storeLinks
      * @return Game
      */
-    public function storeGames(RawgGame   $rawgGame, Collection $gameScreenshots,
-                               Collection $storeLinks): Game
-    {
+    public function storeGames(
+        RawgGame   $rawgGame,
+        Collection $gameScreenshots,
+        Collection $storeLinks
+    ): Game {
         $game = Game::create([
             'slug' => $rawgGame->slug,
             'name' => $rawgGame->name,
@@ -43,32 +44,37 @@ class SaveGames
         $game->save();
 
         $this->saveImages->saveScreenshots($gameScreenshots, $rawgGame->backgroundImage, $game->id);
-        $this->savePlatforms->store($rawgGame, $game->id);
-        $this->saveGenres->store($rawgGame, $game->id);
+        /** @phpstan-ignore-next-line */
+        $this->savePlatforms->store($rawgGame->platforms, $game->id);
+        $this->saveGenres->store($rawgGame->genres, $game->id);
         $this->saveStores->store($storeLinks, $game->id);
 
         return $game;
     }
 
-    public function updateGames(RawgGame $rawgGame): Game
+    public function updateGames(RawgGame $rawgGame): ?Game
     {
         $game = $this->gameHelpers->gameByRawgId($rawgGame->rawgId);
 
-        $game->slug = $rawgGame->slug;
-        $game->name = $rawgGame->name;
-        $game->released = $rawgGame->released;
-        $game->rawg_id = $rawgGame->rawgId;
-        $game->save();
+        if (!is_null($game)) {
+            $game->slug = $rawgGame->slug;
+            $game->name = $rawgGame->name;
+            $game->released = $rawgGame->released;
+            $game->rawg_id = $rawgGame->rawgId;
+            $game->save();
 
-        return $game;
+            return $game;
+        }
+
+        return null;
     }
 
     public function storeNewGame(int $rawgId): Game
     {
         return $this->storeGames(
             $this->rawgAPI->gameSearchById($rawgId),
-            $this->rawgAPI->getGameAtrributes($rawgId, GameAttributes::Screenshots),
-            $this->rawgAPI->getGameAtrributes($rawgId, GameAttributes::Stores)
+            $this->rawgAPI->getGameScreenshots($rawgId),
+            $this->rawgAPI->getGameStore($rawgId)
         );
     }
 }

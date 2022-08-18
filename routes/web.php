@@ -7,6 +7,8 @@ use App\Http\Controllers\GameSearchController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TrackedGamesController;
+use App\Models\Game;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 

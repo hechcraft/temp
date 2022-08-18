@@ -9,6 +9,6 @@ class UserComposer
 {
     public function compose(View $view): void
     {
-        $view->with('user' , Auth::user());
+        $view->with('user', Auth::user());
     }
 }

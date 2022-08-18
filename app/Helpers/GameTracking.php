@@ -16,21 +16,29 @@ class GameTracking
 
     public function deleteGame(int $userId, int $gameId): void
     {
-        $this->findTrackingByUserIdAndGameId($userId, $gameId)->delete();
+        $trackingGame = $this->findTrackingByUserIdAndGameId($userId, $gameId);
+        if (!is_null($trackingGame)) {
+            $trackingGame->delete();
+        }
     }
 
     public function tracksGame(?int $userId, int $gameId): bool
     {
-        if (is_null($userId)) return false;
+        if (is_null($userId)) {
+            return false;
+        }
 
         $currentGame = $this->findTrackingByUserIdAndGameId($userId, $gameId);
 
-        if (isset($currentGame)) return true;
+        if (isset($currentGame)) {
+            return true;
+        }
 
         return false;
     }
 
-    private function findTrackingByUserIdAndGameId(int $userId, int $gameId)
+    /** @phpstan-ignore-next-line  */
+    private function findTrackingByUserIdAndGameId(int $userId, int $gameId): ?UserTracking
     {
         return UserTracking::where('user_id', $userId)
             ->where('game_id', $gameId)

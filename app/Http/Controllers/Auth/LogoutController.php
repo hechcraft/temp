@@ -10,6 +10,7 @@ class LogoutController extends Controller
     public function __invoke(): \Illuminate\Http\RedirectResponse
     {
         Auth::logout();
+        /** @phpstan-ignore-next-line  */
         return redirect()->route('main');
     }
 }

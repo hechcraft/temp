@@ -10,14 +10,14 @@ class RawgPlatformDTO
         public readonly int    $id,
         public readonly string $name,
         public readonly string $slug,
-    )
-    {
+    ) {
     }
 
     /**
-     * @param $response
-     * @return Collection<RawgPlatformDTO>
+     * @param array $platform
+     * @return RawgPlatformDTO
      */
+    /** @phpstan-ignore-next-line  */
     public static function fromResponse($platform): RawgPlatformDTO
     {
         return new self(
@@ -26,5 +26,4 @@ class RawgPlatformDTO
             data_get($platform, 'platform.slug'),
         );
     }
-
 }
