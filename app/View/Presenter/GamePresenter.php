@@ -6,7 +6,7 @@ use Laracasts\Presenter\Presenter;
 
 class GamePresenter extends Presenter
 {
-    public function gameRelease()
+    public function gameRelease(): string
     {
         return $this->released ?? 'N/A';
     }

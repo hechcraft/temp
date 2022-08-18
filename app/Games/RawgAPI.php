@@ -11,28 +11,23 @@ class RawgAPI
     {
     }
 
-    private array $dtoClasses = [
-        'screenshots' => RawgGameScreenshot::class,
-        'stores' => RawgStoreDTO::class
-    ];
 
     public function getPopularGames(string $dates): Collection
     {
-
         $response = $this->getAllGames($dates);
 
-        return $this->nextPage($response, true);
+        return $this->nextPage($response);
     }
 
     public function gameSearch(string $query): Collection
     {
         $response = $this->rawgResponse->response('', [
-                'search' => $query,
-                'search_precise' => true,
-                'search_exact' => true
-            ]);
+            'search' => $query,
+            'search_precise' => true,
+            'search_exact' => true
+        ]);
 
-        return $this->nextPage($response, false);
+        return $this->nextPage($response);
     }
 
     public function gameSearchById(int $rawgGameId): RawgGame
@@ -40,21 +35,48 @@ class RawgAPI
         return RawgGame::fromResponse($this->rawgResponse->response("/$rawgGameId"));
     }
 
-    public function getGameAtrributes(int $rawgGameId, GameAttributes $gameAttributes): Collection
+    /**
+     * @param int $rawgGameId
+     * @return Collection<RawgStoreDTO>
+     */
+    public function getGameStore(int $rawgGameId): Collection
     {
-        $response = $this->rawgResponse->response("/$rawgGameId/$gameAttributes->value");
+        $response = $this->rawgResponse->response("/$rawgGameId/stores");
+        /** @phpstan-ignore-next-line */
+        $stores = collect();
 
-        $attribute = collect();
         foreach (data_get($response, 'results') as $item) {
-            $attribute->push($this->dtoClasses[$gameAttributes->value]::fromRequest($item));
+            $stores->push(RawgStoreDTO::fromRequest($item));
         }
 
-        return $attribute;
+        return $stores;
     }
 
+    /**
+     * @param int $rawgGameId
+     * @return Collection<RawgGameScreenshot>
+     */
+    public function getGameScreenshots(int $rawgGameId): Collection
+    {
+        $response = $this->rawgResponse->response("/$rawgGameId/screenshots");
+
+        /** @phpstan-ignore-next-line */
+        $screenshots = collect();
+
+        foreach (data_get($response, 'results') as $item) {
+            $screenshots->push(RawgGameScreenshot::fromRequest($item));
+        }
+
+        return $screenshots;
+    }
+
+    /**
+     * @param string $dates
+     * @return array<mixed>
+     */
     private function getAllGames(string $dates): array
     {
-        $response = $this->rawgResponse->response('',[
+        $response = $this->rawgResponse->response('', [
             'dates' => str_replace(' ', '', $dates),
             'ordering' => '-added',
             'parent_platforms' => '1,2,3,7',
@@ -65,22 +87,27 @@ class RawgAPI
         return $response;
     }
 
-    private function nextPage($response, bool $sort): Collection
+    /**
+     * @param array $response
+     * @return Collection<RawgGame>
+     */
+    /** @phpstan-ignore-next-line */
+    private function nextPage(array $response): Collection
     {
         if (is_null(data_get($response, 'next'))) {
-            return $this->ratingSort($response, true);
+            return $this->ratingSort($response);
         }
-
+        /** @phpstan-ignore-next-line */
         $games = collect();
 
         while (!is_null(data_get($response, 'next'))) {
-
-            $gameSort = $this->ratingSort($response, $sort);
+            $gameSort = $this->ratingSort($response);
             foreach ($gameSort as $game) {
                 $games->push($game);
             }
 
             $nextPage = data_get($response, 'next');
+            /** @phpstan-ignore-next-line */
             if (is_null($nextPage)) {
                 break;
             }
@@ -92,14 +119,18 @@ class RawgAPI
     }
 
 
-    private function ratingSort(array $games, bool $sort): Collection
+    /**
+     * @param array $games
+     * @return Collection<RawgGame>
+     */
+    /** @phpstan-ignore-next-line */
+    private function ratingSort(array $games): Collection
     {
+        /** @phpstan-ignore-next-line */
         $gameSort = collect();
 
         foreach (data_get($games, 'results') as $value) {
-            if (data_get($value, 'added') > 10 && $sort) {
-                $gameSort->push(RawgGame::fromResponse($value));
-            } elseif (!$sort) {
+            if (data_get($value, 'added') > 10) {
                 $gameSort->push(RawgGame::fromResponse($value));
             }
         }
@@ -107,5 +138,3 @@ class RawgAPI
         return $gameSort;
     }
 }
-
-

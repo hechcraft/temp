@@ -23,11 +23,15 @@ class RawgGame
         public readonly string      $backgroundImage,
         public readonly Collection  $genres,
         public readonly ?Collection $platforms,
-    )
-    {
+    ) {
     }
 
-    public static function fromResponse($response): RawgGame
+    /**
+     * @param array $response
+     * @return RawgGame
+     */
+    /** @phpstan-ignore-next-line  */
+    public static function fromResponse(array $response): RawgGame
     {
         return new self(
             data_get($response, 'slug'),
@@ -41,23 +45,31 @@ class RawgGame
     }
 
     /**
-     * @param $genres
+     * @param array $genres
      * @return Collection<RawgGenreDTO>
      */
-    private static function getGenres($genres): Collection
+    /** @phpstan-ignore-next-line  */
+    private static function getGenres(array $genres): Collection
     {
+        /** @phpstan-ignore-next-line  */
         $genresDTO = collect();
-        foreach ($genres as $genre){
+        foreach ($genres as $genre) {
             $genresDTO->push(RawgGenreDTO::fromResponse($genre));
         }
 
         return $genresDTO;
     }
 
-    private static function getPlatforms($platforms): Collection
+    /**
+     * @param array $platforms
+     * @return Collection<RawgPlatformDTO>
+     */
+    /** @phpstan-ignore-next-line  */
+    private static function getPlatforms(array $platforms): Collection
     {
+        /** @phpstan-ignore-next-line  */
         $platformsDTO = collect();
-        foreach ($platforms as $platform){
+        foreach ($platforms as $platform) {
             $platformsDTO->push(RawgPlatformDTO::fromResponse($platform));
         }
 

@@ -19,7 +19,7 @@
                                 </h3>
                                 <p class="mt-1 text-sm text-white">{{$item->released}}</p>
                                 <ul role="list" class="mt-auto pt-6 flex items-center justify-center space-x-3">
-                                    @foreach($platformsIcon as $platforms => $icon)
+                                    @foreach($platformsIcon[$loop->index] as $platforms => $icon)
                                         <li class="w-6 h-6">
                                             @if($platforms === 'Nintendo' || $platforms === 'Wii')
                                                 <img src="{{$icon}}"

@@ -10,8 +10,7 @@ class SearchService
 {
     public function __construct(
         private RawgAPI $rawgAPI,
-    )
-    {
+    ) {
     }
 
 

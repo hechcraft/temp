@@ -9,10 +9,9 @@ class RawgStoreDTO
         public readonly int $storeId,
         public readonly int $gameId,
         public readonly string $url,
-    )
-    {
+    ) {
     }
-
+    /** @phpstan-ignore-next-line  */
     public static function fromRequest(array $rawgResponse): RawgStoreDTO
     {
         return new self(

@@ -2,7 +2,6 @@
 
 namespace App\Games;
 
-
 use Illuminate\Support\Collection;
 
 class RawgGenreDTO
@@ -11,21 +10,20 @@ class RawgGenreDTO
         public readonly int    $id,
         public readonly string $name,
         public readonly string $slug,
-    )
-    {
+    ) {
     }
 
     /**
-     * @param $response
-     * @return Collection<RawgGenreDTO>
+     * @param array $genre
+     * @return RawgGenreDTO
      */
-    public static function fromResponse($genre): RawgGenreDTO
+    /** @phpstan-ignore-next-line  */
+    public static function fromResponse(array $genre): RawgGenreDTO
     {
         return new self(
             data_get($genre, 'id'),
             data_get($genre, 'name'),
             data_get($genre, 'slug'),
         );
-
     }
 }

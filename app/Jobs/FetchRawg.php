@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Games\Attributes\SaveStores;
-use App\Games\GameAttributes;
 use App\Games\RawgAPI;
 use App\Games\SaveGames;
 use App\Helpers\Services\GameService;
@@ -15,9 +14,12 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
-class  FetchRawg implements ShouldQueue
+class FetchRawg implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     /**
      * Create a new job instance.
@@ -34,20 +36,26 @@ class  FetchRawg implements ShouldQueue
      *
      * @return void
      */
-    public function handle(RawgAPI     $rawgAPI, SaveGames $saveGames, StoreService $storeService,
-                           GameService $gameHelpers, SaveStores $saveStores)
-    {
+    public function handle(
+        RawgAPI     $rawgAPI,
+        SaveGames $saveGames,
+        StoreService $storeService,
+        GameService $gameHelpers,
+        SaveStores $saveStores
+    ) {
         $response = $rawgAPI->getPopularGames($this->date);
 
         foreach ($response as $item) {
             try {
                 $currentGame = $gameHelpers->gameByRawgId($item->rawgId);
-                $currentGameStores = $rawgAPI->getGameAtrributes($item->rawgId, GameAttributes::Stores);
+                $currentGameStores = $rawgAPI->getGameStore($item->rawgId);
 
                 if (is_null($currentGame)) {
-                    $saveGames->storeGames($item,
-                        $rawgAPI->getGameAtrributes($item->rawgId, GameAttributes::Screenshots),
-                        $currentGameStores);
+                    $saveGames->storeGames(
+                        $item,
+                        $rawgAPI->getGameScreenshots($item->rawgId),
+                        $currentGameStores
+                    );
                     continue;
                 }
 
@@ -56,9 +64,8 @@ class  FetchRawg implements ShouldQueue
                 }
 
                 if ($storeService->storeMd5($currentGameStores) !== $storeService->storeMd5($currentGame->stores)) {
-                    $saveStores->update($currentGameStores);
+                    $saveStores->update($currentGameStores, $currentGame->id);
                 }
-
             } catch (\Exception $exception) {
                 Log::info($exception, (array) $item);
             }

@@ -32,13 +32,14 @@ class SaveStores
 
     /**
      * @param Collection<RawgStoreDTO> $stores
+     * @param int $gameId
      * @return void
      */
-    public function update(Collection $stores): void
+    public function update(Collection $stores, int $gameId): void
     {
         $game = $this->gameHelpers->gameByRawgId($stores[0]->gameId);
         foreach ($stores as $store) {
-            $gameStore = GameStores::where('game_id', $game->id)
+            $gameStore = GameStores::where('game_id', $gameId)
                 ->where('store_id', $store->storeId)
                 ->first();
             $gameStore->store_id = $store->storeId;

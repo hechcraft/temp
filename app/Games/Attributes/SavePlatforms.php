@@ -3,13 +3,20 @@
 namespace App\Games\Attributes;
 
 use App\Games\RawgGame;
+use App\Games\RawgPlatformDTO;
 use App\Models\GamePlatforms;
+use Illuminate\Support\Collection;
 
 class SavePlatforms
 {
-    public function store(RawgGame $rawgGame, int $gameId): void
+    /**
+     * @param Collection<RawgPlatformDTO> $platforms
+     * @param int $gameId
+     * @return void
+     */
+    public function store(Collection $platforms, int $gameId): void
     {
-        foreach ($rawgGame->platforms as $platform){
+        foreach ($platforms as $platform) {
             GamePlatforms::create([
                 'game_id' => $gameId,
                 'platform_id' => $platform->id,
