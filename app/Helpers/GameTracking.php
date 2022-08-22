@@ -3,10 +3,11 @@
 namespace App\Helpers;
 
 use App\Models\UserTracking;
+use Illuminate\Http\RedirectResponse;
 
 class GameTracking
 {
-    public function addGame(int $userId, int $gameId): void
+    public function startTracking(int $userId, int $gameId): void
     {
         UserTracking::firstOrCreate([
             'user_id' => $userId,
@@ -14,27 +15,34 @@ class GameTracking
         ]);
     }
 
-    public function deleteGame(int $userId, int $gameId): void
+    public function stopTracking(int $userId, int $gameId): void
     {
         $trackingGame = $this->findTrackingByUserIdAndGameId($userId, $gameId);
-        if (!is_null($trackingGame)) {
+        if (! is_null($trackingGame)) {
             $trackingGame->delete();
         }
     }
 
-    public function tracksGame(?int $userId, int $gameId): bool
+
+    /**
+     * @param int $userId
+     * @param int $gameId
+     * @return RedirectResponse|bool
+     */
+    public function gameTrackingCheck(int $userId, int $gameId): RedirectResponse|bool
     {
-        if (is_null($userId)) {
+        try {
+            $currentGame = $this->findTrackingByUserIdAndGameId($userId, $gameId);
+
+            if (isset($currentGame)) {
+                return true;
+            }
+
             return false;
+        } catch (\Exception $e){
+            return redirect()->route('error');
         }
 
-        $currentGame = $this->findTrackingByUserIdAndGameId($userId, $gameId);
-
-        if (isset($currentGame)) {
-            return true;
-        }
-
-        return false;
     }
 
     /** @phpstan-ignore-next-line  */

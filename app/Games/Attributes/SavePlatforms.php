@@ -2,7 +2,6 @@
 
 namespace App\Games\Attributes;
 
-use App\Games\RawgGame;
 use App\Games\RawgPlatformDTO;
 use App\Models\GamePlatforms;
 use Illuminate\Support\Collection;
@@ -16,11 +15,9 @@ class SavePlatforms
      */
     public function store(Collection $platforms, int $gameId): void
     {
-        foreach ($platforms as $platform) {
-            GamePlatforms::create([
-                'game_id' => $gameId,
-                'platform_id' => $platform->id,
-            ]);
-        }
+          $platforms->each(fn(RawgPlatformDTO $platformDTO) => GamePlatforms::create([
+            'game_id' => $gameId,
+            'platform_id' => $platformDTO->id,
+        ]));
     }
 }

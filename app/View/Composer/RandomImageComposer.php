@@ -4,7 +4,6 @@ namespace App\View\Composer;
 
 use App\Models\Images;
 use Illuminate\View\View;
-use Nette\Utils\Image;
 
 class RandomImageComposer
 {

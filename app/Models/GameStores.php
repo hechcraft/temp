@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Illuminate\Database\Query\Builder;
 
 /**
  *  App\Models\GameStore
+ *
  * @property string $store_link
  * @property int $store_id
  *
@@ -17,7 +17,6 @@ use Illuminate\Database\Query\Builder;
  * @method static GameStores first()
  * @method static GameStores save()
  */
-
 class GameStores extends Model
 {
     use HasFactory;

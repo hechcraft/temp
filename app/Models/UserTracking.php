@@ -7,13 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
- *
  * @method static UserTracking firstOrCreate($value)
  * @method static UserTracking where($column, $value)
  * @method static UserTracking first()
  */
-
-
 class UserTracking extends Model
 {
     use HasFactory;

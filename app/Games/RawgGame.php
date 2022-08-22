@@ -7,27 +7,27 @@ use Illuminate\Support\Collection;
 class RawgGame
 {
     /**
-     * @param string $slug
-     * @param string $name
-     * @param string $released
-     * @param int $rawgId
-     * @param string $backgroundImage
-     * @param Collection<RawgGenreDTO> $genres
-     * @param Collection<RawgPlatformDTO>|null $platforms
+     * @param  string  $slug
+     * @param  string  $name
+     * @param  string  $released
+     * @param  int  $rawgId
+     * @param  string  $backgroundImage
+     * @param  Collection<RawgGenreDTO>  $genres
+     * @param  Collection<RawgPlatformDTO>|null  $platforms
      */
     public function __construct(
-        public readonly string      $slug,
-        public readonly string      $name,
-        public readonly string      $released,
-        public readonly int         $rawgId,
-        public readonly string      $backgroundImage,
-        public readonly Collection  $genres,
+        public readonly string $slug,
+        public readonly string $name,
+        public readonly string $released,
+        public readonly int $rawgId,
+        public readonly string $backgroundImage,
+        public readonly Collection $genres,
         public readonly ?Collection $platforms,
     ) {
     }
 
     /**
-     * @param array $response
+     * @param  array  $response
      * @return RawgGame
      */
     /** @phpstan-ignore-next-line  */
@@ -45,7 +45,7 @@ class RawgGame
     }
 
     /**
-     * @param array $genres
+     * @param  array  $genres
      * @return Collection<RawgGenreDTO>
      */
     /** @phpstan-ignore-next-line  */
@@ -61,7 +61,7 @@ class RawgGame
     }
 
     /**
-     * @param array $platforms
+     * @param  array  $platforms
      * @return Collection<RawgPlatformDTO>
      */
     /** @phpstan-ignore-next-line  */

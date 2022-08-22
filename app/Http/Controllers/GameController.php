@@ -20,6 +20,6 @@ class GameController extends Controller
         $game = Game::firstWhere('slug', $slug);
 
         return view('game.show', ['game' => $game,
-            'tracking' => $this->gameTracking->tracksGame((int) Auth::id(), $game->id)]);
+            'tracking' => $this->gameTracking->gameTrackingCheck(Auth::id(), $game->id), ]);
     }
 }

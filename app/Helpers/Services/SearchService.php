@@ -13,9 +13,8 @@ class SearchService
     ) {
     }
 
-
     /**
-     * @param string $searchQuery
+     * @param  string  $searchQuery
      * @return Collection<RawgGame>
      */
     public function gameSearch(string $searchQuery): Collection

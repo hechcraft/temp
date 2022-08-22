@@ -23,7 +23,6 @@ use Laracasts\Presenter\PresentableTrait;
  * @method static Game sortBy($parameter)
  * @method static Game create($value)
  */
-
 class Game extends Model
 {
     use HasFactory;

@@ -7,30 +7,28 @@ use App\Games\Attributes\SavePlatforms;
 use App\Games\Attributes\SaveStores;
 use App\Helpers\Services\GameService;
 use App\Models\Game;
-use App\Models\Images;
 use Illuminate\Support\Collection;
-use Nette\Utils\Image;
 
 class SaveGames
 {
     public function __construct(
-        private GameService   $gameHelpers,
-        private SaveGenres    $saveGenres,
+        private GameService $gameHelpers,
+        private SaveGenres $saveGenres,
         private SavePlatforms $savePlatforms,
-        private SaveStores    $saveStores,
-        private SaveImages    $saveImages,
-        private RawgAPI       $rawgAPI,
+        private SaveStores $saveStores,
+        private SaveImages $saveImages,
+        private RawgAPI $rawgAPI,
     ) {
     }
 
     /**
-     * @param RawgGame $rawgGame
-     * @param Collection<RawgGameScreenshot> $gameScreenshots
-     * @param Collection<RawgStoreDTO> $storeLinks
+     * @param  RawgGame  $rawgGame
+     * @param  Collection<RawgGameScreenshot>  $gameScreenshots
+     * @param  Collection<RawgStoreDTO>  $storeLinks
      * @return Game
      */
     public function storeGames(
-        RawgGame   $rawgGame,
+        RawgGame $rawgGame,
         Collection $gameScreenshots,
         Collection $storeLinks
     ): Game {
@@ -43,7 +41,7 @@ class SaveGames
 
         $game->save();
 
-        $this->saveImages->saveScreenshots($gameScreenshots, $rawgGame->backgroundImage, $game->id);
+        $this->saveImages->saveScreenshots($gameScreenshots, $game->id);
         /** @phpstan-ignore-next-line */
         $this->savePlatforms->store($rawgGame->platforms, $game->id);
         $this->saveGenres->store($rawgGame->genres, $game->id);
@@ -56,7 +54,7 @@ class SaveGames
     {
         $game = $this->gameHelpers->gameByRawgId($rawgGame->rawgId);
 
-        if (!is_null($game)) {
+        if (! is_null($game)) {
             $game->slug = $rawgGame->slug;
             $game->name = $rawgGame->name;
             $game->released = $rawgGame->released;
@@ -71,9 +69,11 @@ class SaveGames
 
     public function storeNewGame(int $rawgId): Game
     {
+        $rawgGame = $this->rawgAPI->gameSearchById($rawgId);
+
         return $this->storeGames(
-            $this->rawgAPI->gameSearchById($rawgId),
-            $this->rawgAPI->getGameScreenshots($rawgId),
+            $rawgGame,
+            $this->rawgAPI->getGameScreenshots($rawgId, $rawgGame->backgroundImage),
             $this->rawgAPI->getGameStore($rawgId)
         );
     }

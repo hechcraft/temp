@@ -46,7 +46,7 @@
                     <h1 class="text-3xl font-extrabold tracking-tight text-white">{{$game->name}}</h1>
 
                     <div class="mt-3">
-                        <p class="text-3xl text-white">{{$game->present()->gameRelease}}</p>
+                        <p class="text-3xl text-white">{{$game->present()->release}}</p>
                     </div>
 
                     <div class="grid grid-cols-3">

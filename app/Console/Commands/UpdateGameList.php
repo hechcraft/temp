@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Jobs\FetchRawg;
-use Illuminate\Console\Command;
 use Carbon\Carbon;
+use Illuminate\Console\Command;
 
 class UpdateGameList extends Command
 {

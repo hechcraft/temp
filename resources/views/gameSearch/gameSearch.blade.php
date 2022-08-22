@@ -19,13 +19,13 @@
                                 </h3>
                                 <p class="mt-1 text-sm text-white">{{$item->released}}</p>
                                 <ul role="list" class="mt-auto pt-6 flex items-center justify-center space-x-3">
-                                    @foreach($platformsIcon[$loop->index] as $platforms => $icon)
+                                    @foreach($item->platforms->unique('icon') as $platform)
                                         <li class="w-6 h-6">
-                                            @if($platforms === 'Nintendo' || $platforms === 'Wii')
-                                                <img src="{{$icon}}"
+                                            @if($platform->name === 'Nintendo Switch' || $platform->name === 'Wii U')
+                                                <img src="{{$platform->icon}}"
                                                      class="w-full h-full object-center" style="filter: brightness(0) invert(1)">
                                             @else
-                                                <i class="fa-brands {{$icon}}" style="color: white"></i>
+                                                <i class="{{$platform->icon}}" style="color: white"></i>
                                             @endif
                                         </li>
                                     @endforeach
