@@ -2,19 +2,17 @@
 
 namespace App\Games;
 
-use Illuminate\Support\Collection;
-
 class RawgGenreDTO
 {
     public function __construct(
-        public readonly int    $id,
+        public readonly int $id,
         public readonly string $name,
         public readonly string $slug,
     ) {
     }
 
     /**
-     * @param array $genre
+     * @param  array  $genre
      * @return RawgGenreDTO
      */
     /** @phpstan-ignore-next-line  */

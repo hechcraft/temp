@@ -23,7 +23,6 @@ use Laracasts\Presenter\PresentableTrait;
  * @method static Game sortBy($parameter)
  * @method static Game create($value)
  */
-
 class Game extends Model
 {
     use HasFactory;
@@ -51,5 +50,10 @@ class Game extends Model
     public function stores(): HasMany
     {
         return $this->hasMany(GameStores::class);
+    }
+
+    public function tracking()
+    {
+        return $this->hasOne(UserTracking::class);
     }
 }

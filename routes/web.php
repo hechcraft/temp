@@ -7,8 +7,6 @@ use App\Http\Controllers\GameSearchController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TrackedGamesController;
-use App\Models\Game;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +21,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/test', function () {
+    dd(app(\App\Games\SaveGames::class));
+    dd(\App\Models\Game::where('rawg_id', "=", 462688)->first());
+    \App\Jobs\FetchRawg::dispatch('2022-08-19,2022-10-01');
+});
+
 Route::get('/', [SearchController::class, 'index'])->name('main');
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 
@@ -30,13 +34,13 @@ Route::get('/game-search', [GameSearchController::class, 'index'])->name('game.s
 
 Route::get('/game/{slug}', [GameController::class, 'show']);
 
-
 Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function () {
     Route::post('/game-search', [GameSearchController::class, 'store'])->name('game.search.save');
     Route::delete('/game-search', [GameSearchController::class, 'destroy'])->name('game.search.delete');
 
-    Route::get('/user/profile/{user}', [ProfileController::class, 'index'])->name('profile');
-    Route::put('/user/profile/{user}', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/user/profile/', [ProfileController::class, 'index'])->name('profile');
+    Route::put('/user/profile/', [ProfileController::class, 'update'])->name('profile.update');
+
 
     Route::get('/user/tracked-games', [TrackedGamesController::class, 'index'])->name('tracked.games');
     Route::delete('/user/tracked-games/{tracking}', [TrackedGamesController::class, 'delete'])->name('tracked.games.delete');
@@ -47,4 +51,3 @@ Auth::routes();
 Route::get('/logout', LogoutController::class)->name('logout');
 
 Route::get('/error', ErrorPageController::class)->name('error');
-

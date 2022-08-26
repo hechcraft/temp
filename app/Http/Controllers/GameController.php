@@ -11,15 +11,8 @@ use Illuminate\Support\Facades\Auth;
 
 class GameController extends Controller
 {
-    public function __construct(private GameTracking $gameTracking)
-    {
-    }
-
     public function show(string $slug): Factory|View|Application
     {
-        $game = Game::firstWhere('slug', $slug);
-
-        return view('game.show', ['game' => $game,
-            'tracking' => $this->gameTracking->tracksGame((int) Auth::id(), $game->id)]);
+        return view('game.show', ['game' => Game::firstWhere('slug', $slug)]);
     }
 }

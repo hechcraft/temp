@@ -26,7 +26,6 @@ class FetchRawg implements ShouldQueue
      *
      * @return void
      */
-
     public function __construct(public string $date)
     {
     }
@@ -37,37 +36,38 @@ class FetchRawg implements ShouldQueue
      * @return void
      */
     public function handle(
-        RawgAPI     $rawgAPI,
-        SaveGames $saveGames,
+        RawgAPI      $rawgAPI,
+        SaveGames    $saveGames,
         StoreService $storeService,
-        GameService $gameHelpers,
-        SaveStores $saveStores
+        GameService  $gameHelpers,
+        SaveStores   $saveStores
     ) {
-        $response = $rawgAPI->getPopularGames($this->date);
+        $rawgGames = $rawgAPI->getPopularGames($this->date);
 
-        foreach ($response as $item) {
+        foreach ($rawgGames as $rawgGame) {
             try {
-                $currentGame = $gameHelpers->gameByRawgId($item->rawgId);
-                $currentGameStores = $rawgAPI->getGameStore($item->rawgId);
+                $currentGame = $gameHelpers->gameByRawgId($rawgGame->rawgId);
+                $currentGameStores = $rawgAPI->getGameStore($rawgGame->rawgId);
 
                 if (is_null($currentGame)) {
                     $saveGames->storeGames(
-                        $item,
-                        $rawgAPI->getGameScreenshots($item->rawgId),
+                        $rawgGame,
+                        $rawgAPI->getGameScreenshots($rawgGame->rawgId, $rawgGame->backgroundImage),
                         $currentGameStores
                     );
+
                     continue;
                 }
 
-                if ($gameHelpers->dbGameMd5($currentGame) !== $gameHelpers->rawgGameMd5($item)) {
-                    $saveGames->updateGames($item);
+                if ($gameHelpers->generateMd5ForDbGame($currentGame) !== $gameHelpers->generateMd5ForRawgGame($rawgGame)) {
+                    $saveGames->updateGames($rawgGame);
                 }
 
-                if ($storeService->storeMd5($currentGameStores) !== $storeService->storeMd5($currentGame->stores)) {
-                    $saveStores->update($currentGameStores, $currentGame->id);
+                if ($storeService->generateMd5ForRawgStores($currentGameStores) !== $storeService->generateMd5ForDbStores($currentGame->stores)) {
+                    $saveStores->updateStore($currentGameStores, $currentGame->id);
                 }
             } catch (\Exception $exception) {
-                Log::info($exception, (array) $item);
+                Log::info($exception, (array)$rawgGame);
             }
         }
     }

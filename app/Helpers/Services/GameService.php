@@ -27,7 +27,7 @@ class GameService
     }
 
     /**
-     * @param int $rawgId
+     * @param  int  $rawgId
      * @return Collection<Game>
      */
     public function getGameStoreLink(int $rawgId): Collection
@@ -42,7 +42,7 @@ class GameService
         return $links;
     }
 
-    public function dbGameMd5(Game $game): string
+    public function generateMd5ForDbGame(Game $game): string
     {
         return md5(sprintf(
             '%s%s%s%s',
@@ -52,8 +52,7 @@ class GameService
             $game->released,
         ));
     }
-
-    public function rawgGameMd5(RawgGame $rawgGame): string
+    public function generateMd5ForRawgGame(RawgGame $rawgGame): string
     {
         return md5(sprintf(
             '%s%s%s%s',

@@ -9,42 +9,36 @@ use Illuminate\Support\Collection;
 
 class SaveStores
 {
-    public function __construct(private GameService $gameHelpers)
-    {
-    }
-
     /**
-     * @param Collection<RawgStoreDTO> $storeLinks
-     * @param int $gameId
+     * @param  Collection<RawgStoreDTO>  $storeLinks
+     * @param  int  $gameId
      * @return void
      */
     public function store(Collection $storeLinks, int $gameId): void
     {
-        foreach ($storeLinks as $store) {
-            GameStores::create([
-                'game_id' => $gameId,
-                'store_id' => $store->storeId,
-                'store_link' => $store->url,
-            ]);
-        }
+        $storeLinks->each(fn (RawgStoreDTO $storeDTO) => GameStores::create([
+            'game_id' => $gameId,
+            'store_id' => $storeDTO->storeId,
+            'store_link' => $storeDTO->url,
+        ]));
     }
 
-
     /**
-     * @param Collection<RawgStoreDTO> $stores
-     * @param int $gameId
+     * @param  Collection<RawgStoreDTO>  $stores
+     * @param  int  $gameId
      * @return void
      */
-    public function update(Collection $stores, int $gameId): void
+    public function updateStore(Collection $stores, int $gameId): void
     {
-        $game = $this->gameHelpers->gameByRawgId($stores[0]->gameId);
-        foreach ($stores as $store) {
-            $gameStore = GameStores::where('game_id', $gameId)
-                ->where('store_id', $store->storeId)
-                ->first();
-            $gameStore->store_id = $store->storeId;
-            $gameStore->store_link = $store->url;
-            $gameStore->save();
-        }
+        $stores->each(
+            fn (RawgStoreDTO $storeDTO) =>
+        GameStores::where('game_id', $gameId)
+            ->where('store_id', $storeDTO->storeId)
+            ->first()
+            ->update([
+                'store_id' => $storeDTO->storeId,
+                'store_link' => $storeDTO->url,
+            ])
+        );
     }
 }

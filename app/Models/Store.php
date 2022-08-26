@@ -14,7 +14,6 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $domain
  * @property string|null $icon
  */
-
 class Store extends Model
 {
     use HasFactory;

@@ -70,9 +70,9 @@
                     </div>
                 </div>
             </form>
-            @auth
-                @include('components.slider2')
-            @endauth
+            @if($trackedGames->isNotEmpty())
+                @include('components.slider2', ['trackedGames' => $trackedGames])
+            @endif
         </div>
     </div>
     <script>

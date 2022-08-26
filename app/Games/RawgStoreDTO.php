@@ -11,6 +11,7 @@ class RawgStoreDTO
         public readonly string $url,
     ) {
     }
+
     /** @phpstan-ignore-next-line  */
     public static function fromRequest(array $rawgResponse): RawgStoreDTO
     {

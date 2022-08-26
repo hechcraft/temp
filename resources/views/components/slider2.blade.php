@@ -16,16 +16,16 @@
             <div class="w-full h-full mx-auto overflow-x-hidden overflow-y-hidden">
                 <div id="slider"
                      class="h-full flex lg:gap-8 md:gap-6 gap-14 items-center justify-start transition ease-out duration-700">
-                    @foreach($user->trackedGames as $trackedGame)
-                        <a href="/game/{{$trackedGame->game->slug}}" class="flex flex-shrink-0 relative w-full sm:w-auto">
-                            <img src="{{$trackedGame->game->images->where('type', 'cover')->first()->url}}"
+                    @foreach($trackedGames as $trackedGame)
+                        <a href="/game/{{$trackedGame->slug}}" class="flex flex-shrink-0 relative w-full sm:w-auto">
+                            <img src="{{$trackedGame->url}}"
                                  class="object-cover object-center w-72 h-96"/>
                             <div class="bg-gray-800 bg-opacity-30 absolute w-full h-full p-6">
                                 <h2 class="lg:text-xl leading-4 text-base lg:leading-5 text-white dark:text-gray-900">
-                                    {{$trackedGame->game->name}}</h2>
+                                    {{$trackedGame->name}}</h2>
                                 <div class="flex h-full items-end pb-6">
                                     <h3 class="text-xl lg:text-2xl font-semibold leading-5 lg:leading-6 text-white dark:text-gray-900">
-                                        {{$trackedGame->game->released}}</h3>
+                                        {{$trackedGame->released}}</h3>
                                 </div>
                             </div>
                         </a>

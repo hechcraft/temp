@@ -3,10 +3,13 @@
 namespace App\Helpers;
 
 use App\Models\UserTracking;
+use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Collection;
 
 class GameTracking
 {
-    public function addGame(int $userId, int $gameId): void
+    public function startTracking(int $userId, int $gameId): void
     {
         UserTracking::firstOrCreate([
             'user_id' => $userId,
@@ -14,27 +17,25 @@ class GameTracking
         ]);
     }
 
-    public function deleteGame(int $userId, int $gameId): void
+    public function stopTracking(int $userId, int $gameId): void
     {
         $trackingGame = $this->findTrackingByUserIdAndGameId($userId, $gameId);
-        if (!is_null($trackingGame)) {
+        if (! is_null($trackingGame)) {
             $trackingGame->delete();
         }
     }
 
-    public function tracksGame(?int $userId, int $gameId): bool
+    public function getTrackedUserGamesSortByReleased(int $userId): Collection
     {
-        if (is_null($userId)) {
-            return false;
-        }
-
-        $currentGame = $this->findTrackingByUserIdAndGameId($userId, $gameId);
-
-        if (isset($currentGame)) {
-            return true;
-        }
-
-        return false;
+        return \DB::table('games')
+            ->leftJoin('user_trackings', 'games.id', '=', 'user_trackings.game_id')
+            ->leftJoin('images', 'games.id','=', 'images.game_id')
+            ->select('games.*', 'user_trackings.*', 'images.*')
+            ->where('images.type', '=', 'cover')
+            ->where('user_trackings.user_id', '=', $userId)
+            ->where('games.released', '>=', Carbon::now()->format('Y-m-d'))
+            ->orderBy('games.released')
+            ->get();
     }
 
     /** @phpstan-ignore-next-line  */

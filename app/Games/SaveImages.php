@@ -8,25 +8,18 @@ use Illuminate\Support\Collection;
 class SaveImages
 {
     /**
-     * @param Collection<RawgGameScreenshot> $screenshots
-     * @param string $backgroundImage
-     * @param int $gameId
+     * @param  Collection<RawgGameScreenshot>  $screenshots
+     * @param  int  $gameId
      * @return void
      */
-    public function saveScreenshots(Collection $screenshots, string $backgroundImage, int $gameId): void
+    public function saveScreenshots(Collection $screenshots, int $gameId): void
     {
         foreach ($screenshots as $screenshot) {
             Images::create([
                 'game_id' => $gameId,
                 'url' => $screenshot->screenshot,
-                'type' => 'screenshot',
+                'type' => $screenshot->type,
             ]);
         }
-
-        Images::create([
-            'game_id' => $gameId,
-            'url' => $backgroundImage,
-            'type' => 'cover',
-        ]);
     }
 }
