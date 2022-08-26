@@ -15,9 +15,9 @@ class SavePlatforms
      */
     public function store(Collection $platforms, int $gameId): void
     {
-          $platforms->each(fn(RawgPlatformDTO $platformDTO) => GamePlatforms::create([
-            'game_id' => $gameId,
-            'platform_id' => $platformDTO->id,
+        $platforms->each(fn (RawgPlatformDTO $platformDTO) => GamePlatforms::create([
+          'game_id' => $gameId,
+          'platform_id' => $platformDTO->id,
         ]));
     }
 }

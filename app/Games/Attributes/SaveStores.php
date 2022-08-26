@@ -9,10 +9,6 @@ use Illuminate\Support\Collection;
 
 class SaveStores
 {
-    public function __construct(private GameService $gameHelpers)
-    {
-    }
-
     /**
      * @param  Collection<RawgStoreDTO>  $storeLinks
      * @param  int  $gameId
@@ -20,7 +16,7 @@ class SaveStores
      */
     public function store(Collection $storeLinks, int $gameId): void
     {
-        $storeLinks->each(fn(RawgStoreDTO $storeDTO) => GameStores::create([
+        $storeLinks->each(fn (RawgStoreDTO $storeDTO) => GameStores::create([
             'game_id' => $gameId,
             'store_id' => $storeDTO->storeId,
             'store_link' => $storeDTO->url,
@@ -34,7 +30,8 @@ class SaveStores
      */
     public function updateStore(Collection $stores, int $gameId): void
     {
-        $stores->each(fn (RawgStoreDTO $storeDTO)  =>
+        $stores->each(
+            fn (RawgStoreDTO $storeDTO) =>
         GameStores::where('game_id', $gameId)
             ->where('store_id', $storeDTO->storeId)
             ->first()
@@ -43,6 +40,5 @@ class SaveStores
                 'store_link' => $storeDTO->url,
             ])
         );
-
     }
 }

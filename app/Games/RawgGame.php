@@ -40,7 +40,7 @@ class RawgGame
             data_get($response, 'id'),
             data_get($response, 'background_image') ?? asset('storage.jpg/defaultImage.jpg'),
             self::getGenres(data_get($response, 'genres')),
-            self::getPlatforms(data_get($response, 'platforms')),
+            self::getPlatforms(data_get($response, 'platforms', collect([]))),
         );
     }
 

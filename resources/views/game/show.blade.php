@@ -8,7 +8,6 @@
                     <!-- Image selector -->
                     <div class="hidden mt-6 w-full max-w-2xl mx-auto sm:block lg:max-w-none">
                         <div class="grid grid-cols-4 gap-6" aria-orientation="horizontal" role="tablist">
-
                             @foreach($game->images->where('type', 'screenshot') as $screenshot)
                                 <button id="tabs-1-tab-1"
                                         class="relative h-24 bg-white rounded-md flex items-center justify-center text-sm font-medium uppercase text-gray-900 cursor-pointer hover:bg-gray-50 focus:outline-none focus:ring focus:ring-offset-4 focus:ring-opacity-50"
@@ -51,7 +50,7 @@
 
                     <div class="grid grid-cols-3">
                         @auth
-                            @if(!$tracking)
+                            @if(!$game->tracking)
                                 <form action="{{route('game.search.save')}}" method="post" class="mt-4 col">
                                     @csrf
                                     <div class="flex sm:flex-col1">
@@ -66,13 +65,13 @@
                                     </div>
                                 </form>
                             @endif
-                            @if($tracking)
+                            @if($game->tracking)
                                 <form action="{{route('game.search.delete')}}" method="post" class="mt-4 col">
                                     @method('delete')
                                     @csrf
                                     <div class="flex sm:flex-col1">
                                         <input type="text" hidden name="userId"
-                                               value="{{\Illuminate\Support\Facades\Auth::user()->id}}">
+                                               value="{{Auth::user()->id}}">
                                         <input type="text" hidden name="gameId" value="{{$game->id}}">
                                         <button
                                             class="relative inline-flex items-center justify-center p-0.5  mb-2 mr-2 overflow-hidden text-sm font-medium text-white rounded-lg group bg-gradient-to-br from-pink-500 to-orange-400 group-hover:from-pink-500 group-hover:to-orange-400 hover:text-white focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800">

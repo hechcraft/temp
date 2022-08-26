@@ -41,8 +41,7 @@ class FetchRawg implements ShouldQueue
         StoreService $storeService,
         GameService  $gameHelpers,
         SaveStores   $saveStores
-    )
-    {
+    ) {
         $rawgGames = $rawgAPI->getPopularGames($this->date);
 
         foreach ($rawgGames as $rawgGame) {

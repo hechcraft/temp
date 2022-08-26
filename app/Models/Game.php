@@ -51,4 +51,9 @@ class Game extends Model
     {
         return $this->hasMany(GameStores::class);
     }
+
+    public function tracking()
+    {
+        return $this->hasOne(UserTracking::class);
+    }
 }

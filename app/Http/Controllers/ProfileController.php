@@ -30,7 +30,7 @@ class ProfileController extends Controller
         /** @phpstan-ignore-next-line */
         $request->user()->password = Hash::make($request->password);
 
-        if (!is_null($request->file('avatart'))) {
+        if (!is_null($request->file('avatar'))) {
             /** @phpstan-ignore-next-line */
             $request->user()->avatar = $request->file('avatar')->store('avatar');
         }

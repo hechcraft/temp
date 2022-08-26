@@ -4,6 +4,7 @@ namespace App\Helpers\Services;
 
 use App\Games\RawgAPI;
 use App\Games\RawgGame;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
 
 class SearchService
@@ -14,7 +15,7 @@ class SearchService
     }
 
     /**
-     * @param  string  $searchQuery
+     * @param string $searchQuery
      * @return Collection<RawgGame>
      */
     public function gameSearch(string $searchQuery): Collection

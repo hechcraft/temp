@@ -15,7 +15,7 @@ class SaveGenres
      */
     public function store(Collection $genres, int $gameId): void
     {
-        $genres->each(fn(RawgGenreDTO $genreDTO) => GameGenres::create([
+        $genres->each(fn (RawgGenreDTO $genreDTO) => GameGenres::create([
             'game_id' => $gameId,
             'genre_id' => $genreDTO->id,
         ]));

@@ -57,13 +57,18 @@ RUN apt-get install -y \
     wget \
     xdg-utils \
     librabbitmq-dev \
-    libssh-dev
+    libssh-dev \
+    libfreetype6-dev \
+   	libjpeg62-turbo-dev \
+   	libpng-dev
 
 RUN a2enmod rewrite headers
 
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 RUN pecl install amqp
+
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg
 
 RUN docker-php-ext-install \
     bz2 \
@@ -76,8 +81,9 @@ RUN docker-php-ext-install \
     pdo_mysql \
     pcntl \
     sockets \
-    gd \
-    zip
+    zip \
+    mbstring \
+    gd
 
 RUN pecl install xdebug-3.1.5
 RUN docker-php-ext-enable xdebug

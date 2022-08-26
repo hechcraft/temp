@@ -3,7 +3,9 @@
 namespace App\Helpers;
 
 use App\Models\UserTracking;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Collection;
 
 class GameTracking
 {
@@ -23,26 +25,17 @@ class GameTracking
         }
     }
 
-
-    /**
-     * @param int $userId
-     * @param int $gameId
-     * @return RedirectResponse|bool
-     */
-    public function gameTrackingCheck(int $userId, int $gameId): RedirectResponse|bool
+    public function getTrackedUserGamesSortByReleased(int $userId): Collection
     {
-        try {
-            $currentGame = $this->findTrackingByUserIdAndGameId($userId, $gameId);
-
-            if (isset($currentGame)) {
-                return true;
-            }
-
-            return false;
-        } catch (\Exception $e){
-            return redirect()->route('error');
-        }
-
+        return \DB::table('games')
+            ->leftJoin('user_trackings', 'games.id', '=', 'user_trackings.game_id')
+            ->leftJoin('images', 'games.id','=', 'images.game_id')
+            ->select('games.*', 'user_trackings.*', 'images.*')
+            ->where('images.type', '=', 'cover')
+            ->where('user_trackings.user_id', '=', $userId)
+            ->where('games.released', '>=', Carbon::now()->format('Y-m-d'))
+            ->orderBy('games.released')
+            ->get();
     }
 
     /** @phpstan-ignore-next-line  */

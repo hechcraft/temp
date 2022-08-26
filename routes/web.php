@@ -22,14 +22,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/test', function () {
-    \App\Jobs\FetchRawg::dispatch('2022-08-19,2022-09-01');
-    dd('');
-    $q = new \App\Games\RawgClient();
-    $saints = 650607;
-    $w = app(\App\Games\RawgAPI::class);
-    dd($w->getGameScreenshots($saints, 'https://media.rawg.io/media/games/253/2538c831423559834329741e44d3c718.jpg'));
-//    dd($q->getSearchGame('call of duty'));
-//    dd($q->getNextPaginatePageForSearch(4, 'call of duty'));
+    dd(app(\App\Games\SaveGames::class));
+    dd(\App\Models\Game::where('rawg_id', "=", 462688)->first());
+    \App\Jobs\FetchRawg::dispatch('2022-08-19,2022-10-01');
 });
 
 Route::get('/', [SearchController::class, 'index'])->name('main');
