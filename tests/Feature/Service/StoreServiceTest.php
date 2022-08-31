@@ -27,6 +27,6 @@ class StoreServiceTest extends FeatureTestCase
         $dBStoresMd5 = $storeService->generateMd5ForDbStores(Game::first()->stores);
         $rawgStoresMd5 = $storeService->generateMd5ForRawgStores($rawgStores);
 
-        $this->assertTrue($dBStoresMd5 === $rawgStoresMd5);
+        $this->assertEquals($dBStoresMd5,$rawgStoresMd5);
     }
 }

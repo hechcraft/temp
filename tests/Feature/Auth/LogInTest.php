@@ -3,9 +3,7 @@
 namespace Auth;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Feature\FeatureTestCase;
-use Tests\TestCase;
 
 class LogInTest extends FeatureTestCase
 {
@@ -39,5 +37,12 @@ class LogInTest extends FeatureTestCase
         ]);
 
         $response->assertRedirect('/');
+    }
+
+    public function test_show_correct_login_view()
+    {
+        $response = $this->get(route('login'));
+
+        $response->assertViewIs('auth.login');
     }
 }

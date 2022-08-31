@@ -49,8 +49,8 @@ class GameTrackingTest extends FeatureTestCase
 
         $games = $gameTracking->getTrackedUserGamesSortByReleased(1, '2022-01-01');
 
-        $this->assertTrue($games->count() === 3);
+        $this->assertEquals($games->count(), 3);
 
-        $this->assertTrue(data_get($games, '0.slug') == "skinwalker-hunt");
+        $this->assertEquals(data_get($games, '0.slug'), "skinwalker-hunt");
     }
 }

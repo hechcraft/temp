@@ -22,8 +22,6 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/test', function () {
-    dd(app(\App\Games\SaveGames::class));
-    dd(\App\Models\Game::where('rawg_id', "=", 462688)->first());
     \App\Jobs\FetchRawg::dispatch('2022-08-19,2022-10-01');
 });
 

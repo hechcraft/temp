@@ -18,9 +18,9 @@ class GameService
      * @return Game|Collection<Game>
      */
     /** @phpstan-ignore-next-line  */
-    public function gameSortByRelease()
+    public function gameSortByRelease($date = null)
     {
-        return Game::where('released', '>=', Carbon::now()->toDateString())
+        return Game::where('released', '>=', $date ?? Carbon::now()->toDateString())
             ->with('images')
             ->get()
             ->sortBy('released');

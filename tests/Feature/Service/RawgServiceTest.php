@@ -22,14 +22,14 @@ class RawgServiceTest extends TestCase
             json_decode(htmlspecialchars_decode($jsonReponse), true)
         );
 
-        $this->assertTrue($games->count() === 3);
+        $this->assertEquals($games->count(), 3);
 
-        $this->assertTrue($games->first()->name === 'Cuphead');
+        $this->assertEquals($games->first()->name, 'Cuphead');
 
-        $this->assertTrue($games->get(1)->platforms->first()->slug === 'ios');
+        $this->assertEquals($games->get(1)->platforms->first()->slug, 'ios');
 
-        $this->assertTrue($games->get(2)->slug === "cuphead-the-delicious-last-course");
+        $this->assertEquals($games->get(2)->slug, "cuphead-the-delicious-last-course");
 
-        $this->assertTrue($games->get(2)->genres->first()->id === 83);
+        $this->assertEquals($games->get(2)->genres->first()->id, 83);
     }
 }

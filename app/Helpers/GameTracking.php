@@ -29,7 +29,7 @@ class GameTracking
     {
         return \DB::table('games')
             ->leftJoin('user_trackings', 'games.id', '=', 'user_trackings.game_id')
-            ->leftJoin('images', 'games.id','=', 'images.game_id')
+            ->leftJoin('images', 'games.id', '=', 'images.game_id')
             ->select('games.*', 'user_trackings.*', 'images.*')
             ->where('images.type', '=', 'cover')
             ->where('user_trackings.user_id', '=', $userId)

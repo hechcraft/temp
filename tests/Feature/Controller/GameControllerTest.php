@@ -10,6 +10,13 @@ use Tests\TestCase;
 
 class GameControllerTest extends FeatureTestCase
 {
+    public function setUp(): void
+    {
+        parent::setUp();
+
+        $this->user = User::first();
+    }
+
     public function test_game_show_page_for_auth_user()
     {
         $response = $this->actingAs($this->user)->get('/game/steelrising');
@@ -17,7 +24,6 @@ class GameControllerTest extends FeatureTestCase
         $response->assertStatus(200);
 
         $response->assertSee('Steelrising');
-
     }
 
 

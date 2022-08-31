@@ -11,7 +11,7 @@ class RawgGameScreenshot
     }
 
     /** @phpstan-ignore-next-line  */
-    public static function fromRequest(string $image, string $type): self
+    public static function fromRequest(string $image, string $type): RawgGameScreenshot
     {
         return new self(
             $image,
