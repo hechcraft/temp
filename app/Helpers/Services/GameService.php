@@ -26,22 +26,6 @@ class GameService
             ->sortBy('released');
     }
 
-    /**
-     * @param  int  $rawgId
-     * @return Collection<Game>
-     */
-    public function getGameStoreLink(int $rawgId): Collection
-    {
-        /** @phpstan-ignore-next-line  */
-        $links = collect();
-        /** @phpstan-ignore-next-line  */
-        foreach ($this->gameByRawgId($rawgId)->stores as $store) {
-            $links->push($store->store_link);
-        }
-
-        return $links;
-    }
-
     public function generateMd5ForDbGame(Game $game): string
     {
         return md5(sprintf(

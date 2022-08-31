@@ -32,6 +32,8 @@ class GameSearchController extends Controller
         /** @phpstan-ignore-next-line  */
         $search = $this->searchService->gameSearch($request->get('search'))->sortByDesc('released');
 
+
+        dd($search);
         return view(
             'gameSearch.gameSearch',
             ['search' => $search, 'query' => $request->get('search')]

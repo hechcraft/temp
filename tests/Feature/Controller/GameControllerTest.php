@@ -5,19 +5,11 @@ namespace Controller;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Feature\FeatureTestCase;
 use Tests\TestCase;
 
-class GameControllerTest extends TestCase
+class GameControllerTest extends FeatureTestCase
 {
-    public function setUp(): void
-    {
-        parent::setUp();
-
-        $this->artisan('migrate:fresh --seed');
-
-        $this->user = User::first();
-    }
-
     public function test_game_show_page_for_auth_user()
     {
         $response = $this->actingAs($this->user)->get('/game/steelrising');

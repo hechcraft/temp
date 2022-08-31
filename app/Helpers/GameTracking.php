@@ -25,7 +25,7 @@ class GameTracking
         }
     }
 
-    public function getTrackedUserGamesSortByReleased(int $userId): Collection
+    public function getTrackedUserGamesSortByReleased(int $userId, $date = null): Collection
     {
         return \DB::table('games')
             ->leftJoin('user_trackings', 'games.id', '=', 'user_trackings.game_id')
@@ -33,7 +33,7 @@ class GameTracking
             ->select('games.*', 'user_trackings.*', 'images.*')
             ->where('images.type', '=', 'cover')
             ->where('user_trackings.user_id', '=', $userId)
-            ->where('games.released', '>=', Carbon::now()->format('Y-m-d'))
+            ->where('games.released', '>=', $date ?? Carbon::now()->format('Y-m-d'))
             ->orderBy('games.released')
             ->get();
     }

@@ -4,12 +4,11 @@ namespace Auth;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Feature\FeatureTestCase;
 use Tests\TestCase;
 
-class LogInTest extends TestCase
+class LogInTest extends FeatureTestCase
 {
-    use RefreshDatabase;
-
     public function test_required_password()
     {
         $user = User::factory()->create();

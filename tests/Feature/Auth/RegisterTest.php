@@ -3,11 +3,11 @@
 namespace Auth;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Feature\FeatureTestCase;
 use Tests\TestCase;
 
-class RegisterTest extends TestCase
+class RegisterTest extends FeatureTestCase
 {
-    use RefreshDatabase;
 
     public function test_user_email_stored_in_database()
     {

@@ -6,12 +6,11 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Tests\Feature\FeatureTestCase;
 use Tests\TestCase;
 
-class ProfileControllerTest extends TestCase
+class ProfileControllerTest extends FeatureTestCase
 {
-    use RefreshDatabase;
-
     public function test_user_has_access_profile_page()
     {
         $user = User::factory()->create();
