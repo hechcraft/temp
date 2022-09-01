@@ -55,7 +55,7 @@ class RawgAPI
      */
     public function getGameStore(int $rawgGameId): Collection
     {
-        $response = $this->rawgClient->getRawgGameStroes($rawgGameId);
+        $response = $this->rawgClient->getRawgGameStores($rawgGameId);
         /** @phpstan-ignore-next-line */
         $stores = collect();
 

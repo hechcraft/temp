@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/test', function () {
-    \App\Jobs\FetchRawg::dispatch('2022-08-19,2022-10-01');
+    \App\Jobs\FetchRawg::dispatch('2022-08-20,2022-08-20');
 });
 
 Route::get('/', [SearchController::class, 'index'])->name('main');

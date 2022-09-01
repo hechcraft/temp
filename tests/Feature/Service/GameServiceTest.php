@@ -51,11 +51,6 @@ class GameServiceTest extends FeatureTestCase
 
         $gamesSort = $gameService->gameSortByRelease('2022-01-01');
 
-        $q = new Collection();
-        foreach ($gamesSort as $w){
-            $q->push($w->released);
-        }
-
         $this->assertEquals($gamesSort->slice(0,1)->first()->released, "2022-08-19");
 
         $this->assertEquals($gamesSort->slice(1,2)->first()->released, "2022-08-20");

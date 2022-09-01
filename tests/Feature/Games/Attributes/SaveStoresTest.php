@@ -5,7 +5,6 @@ namespace Games\Attributes;
 use App\Games\Attributes\SaveStores;
 use App\Games\RawgStoreDTO;
 use Tests\Feature\FeatureTestCase;
-use Tests\TestCase;
 
 class SaveStoresTest extends FeatureTestCase
 {
