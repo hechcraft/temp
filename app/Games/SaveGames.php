@@ -53,7 +53,6 @@ class SaveGames
     public function updateGames(RawgGame $rawgGame): ?Game
     {
         $game = $this->gameHelpers->gameByRawgId($rawgGame->rawgId);
-
         if (! is_null($game)) {
             $game->slug = $rawgGame->slug;
             $game->name = $rawgGame->name;

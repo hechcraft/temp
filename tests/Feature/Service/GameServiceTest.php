@@ -55,7 +55,7 @@ class GameServiceTest extends FeatureTestCase
 
         $this->assertEquals($gamesSort->slice(1,2)->first()->released, "2022-08-20");
 
-        $this->assertEquals($gamesSort->slice(2,3)->first()->released, "2022-08-23");
+        $this->assertEquals($gamesSort->slice(2,3)->first()->released, "2022-08-25");
 
         $this->assertEquals($gamesSort->slice(3,4)->first()->released, "2022-08-29");
 
