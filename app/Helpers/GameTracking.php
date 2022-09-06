@@ -6,6 +6,7 @@ use App\Models\UserTracking;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class GameTracking
 {
@@ -25,9 +26,9 @@ class GameTracking
         }
     }
 
-    public function getTrackedUserGamesSortByReleased(int $userId, $date = null): Collection
+    public function getTrackedUserGamesSortByReleased(int $userId, ?string $date = null): Collection
     {
-        return \DB::table('games')
+        return DB::table('games')
             ->leftJoin('user_trackings', 'games.id', '=', 'user_trackings.game_id')
             ->leftJoin('images', 'games.id', '=', 'images.game_id')
             ->select('games.*', 'user_trackings.*', 'images.*')

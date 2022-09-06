@@ -22,8 +22,9 @@
                                             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
                                                 <dt class="text-sm font-medium text-white">Name</dt>
                                                 <dd class="mt-1 flex text-sm text-white sm:mt-0 sm:col-span-2">
-                                                    <input class="flex-grow border-2 rounded-lg bg-gray-600 border-gray-500/50"
-                                                           value="{{$user->name}}" name="name"/>
+                                                    <input
+                                                        class="flex-grow border-2 rounded-lg bg-gray-600 border-gray-500/50"
+                                                        value="{{$user->name}}" name="name"/>
                                                     @error('name')
                                                     <p class="mt-2 text-sm text-red-600" id="email-error">
                                                         {{$message}}
@@ -47,8 +48,9 @@
                                             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5">
                                                 <dt class="text-sm font-medium text-white">Email</dt>
                                                 <dd class="mt-1 flex text-sm text-white sm:mt-0 sm:col-span-2">
-                                                    <input class="flex-grow border-2 rounded-lg bg-gray-600 border-gray-500/50"
-                                                           value="{{$user->email}}" name="email"/>
+                                                    <input
+                                                        class="flex-grow border-2 rounded-lg bg-gray-600 border-gray-500/50"
+                                                        value="{{$user->email}}" name="email"/>
                                                     @error('email')
                                                     <p class="mt-2 text-sm text-red-600" id="email-error">
                                                         {{$message}}
@@ -59,8 +61,9 @@
                                             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5">
                                                 <dt class="text-sm font-medium text-white">Password</dt>
                                                 <dd class="mt-1 flex text-sm text-white sm:mt-0 sm:col-span-2">
-                                                    <input class="flex-grow border-2 rounded-lg bg-gray-600 border-gray-500/50"
-                                                           value="" type="password" name="password" required/>
+                                                    <input
+                                                        class="flex-grow border-2 rounded-lg bg-gray-600 border-gray-500/50"
+                                                        value="" type="password" name="password" required/>
                                                     @error('password')
                                                     <p class="mt-2 text-sm text-red-600" id="email-error">
                                                         {{$message}}
@@ -71,15 +74,34 @@
                                             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5">
                                                 <dt class="text-sm font-medium text-white">Confirm password</dt>
                                                 <dd class="mt-1 flex text-sm text-white sm:mt-0 sm:col-span-2">
-                                                    <input class="flex-grow border-2 rounded-lg bg-gray-600 border-gray-500/50"
-                                                           value="" type="password" required
-                                                           name="password_confirmation"/>
+                                                    <input
+                                                        class="flex-grow border-2 rounded-lg bg-gray-600 border-gray-500/50"
+                                                        value="" type="password" required
+                                                        name="password_confirmation"/>
                                                     @error('password_confirmation')
                                                     <p class="mt-2 text-sm text-red-600" id="email-error">
                                                         {{$message}}
                                                     </p>
                                                     @enderror
                                                 </dd>
+                                            </div>
+                                            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5">
+                                                @if(!$user->telegram_id)
+                                                    <dt class="text-sm font-medium text-white">Telegram account</dt>
+                                                    <script async src="https://telegram.org/js/telegram-widget.js?19"
+                                                            data-telegram-login="DenYatsenkoDebugBot" data-size="medium"
+                                                            data-auth-url="/telegram" data-userpic="false"
+                                                            data-request-access="write"></script>
+                                                @else
+                                                    <dt class="text-sm font-medium text-white">Telegram account</dt>
+                                                        <div class="grid-cols-2">
+                                                            <a href="{{route('delete.telegram.id')}}"
+                                                                    class="inline-flex items-center px-3.5 py-2 border border-transparent
+                                                                text-sm leading-4 font-medium rounded-full shadow-sm text-white bg-red-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                                Delete telegram ID
+                                                            </a>
+                                                        </div>
+                                                @endif
                                             </div>
                                             <div
                                                 class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-b sm:border-gray-200">

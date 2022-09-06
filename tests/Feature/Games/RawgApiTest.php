@@ -10,6 +10,34 @@ use Tests\Feature\FeatureTestCase;
 
 class RawgApiTest extends FeatureTestCase
 {
+    public function test_get_metacritic_data()
+    {
+        app()->bind(RawgAPI::class, function () {
+            $rawgClient = $this->mock(RawgClient::class);
+            $rawgClient->expects('getRawgGameById')
+                ->once()
+                ->with(123)
+                ->andReturn(
+                    json_decode(htmlspecialchars_decode(
+                        file_get_contents(__DIR__ . '/ApiResponse/Cuphead.txt', 'r')
+                    ), true)
+                );
+
+            return new RawgAPI(
+                $rawgClient,
+                app(PaginateRawgResponse::class),
+                app(RawgService::class),
+            );
+        });
+
+        $rawgApi = app(RawgAPI::class);
+
+        $metacritic = $rawgApi->getMetacriticData(123);
+
+        $this->assertEquals(null, $metacritic->rating);
+        $this->assertEquals("https://www.metacritic.com/game/pc/cuphead", $metacritic->url);
+    }
+
     public function test_get_popular_games()
     {
         app()->bind(RawgAPI::class, function () {

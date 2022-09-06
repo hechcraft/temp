@@ -14,6 +14,11 @@ class RawgAPI
     ) {
     }
 
+    public function getMetacriticData(int $rawgGameId): RawgMetacriticDataDTO
+    {
+        return RawgMetacriticDataDTO::fromResponse($this->rawgClient->getRawgGameById($rawgGameId));
+    }
+
     /**
      * @param  string  $dates
      * @return Collection<RawgGame>

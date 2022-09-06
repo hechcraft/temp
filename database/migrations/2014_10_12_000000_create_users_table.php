@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('password');
             $table->tinyInteger('search_engine')->default('0');
             $table->string('avatar')->default('avatar/defaultAvatar.jpg');
+            $table->string('telegram_id')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

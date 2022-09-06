@@ -11,6 +11,30 @@ use Tests\TestCase;
 
 class GameServiceTest extends FeatureTestCase
 {
+    public function test_get_game_release_today()
+    {
+        $gameService = app(GameService::class);
+
+        $release = $gameService->getGameReleaseToday('2022-09-06')->first();
+
+        $this->assertEquals("gloomwood", $release->slug);
+        $this->assertEquals("Gloomwood", $release->name);
+        $this->assertEquals("2022-09-06", $release->released);
+        $this->assertEquals(455513, $release->rawg_id);
+    }
+
+    public function test_get_game_cover()
+    {
+        $gameService = app(GameService::class);
+
+        $cover = $gameService->getGameCover('462688');
+
+        $this->assertEquals(7, $cover->id);
+        $this->assertEquals(1, $cover->game_id);
+        $this->assertEquals("https://media.rawg.io/media/games/ec0/ec0e75d783dcd78a3f9367a57b87ac97.jpg", $cover->url);
+        $this->assertEquals('cover', $cover->type);
+    }
+
     public function test_get_game_by_rawg_id()
     {
         $gameService = app(GameService::class);

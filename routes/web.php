@@ -1,11 +1,11 @@
 <?php
 
 use App\Http\Controllers\Auth\LogoutController;
-use App\Http\Controllers\ErrorPageController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\GameSearchController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\TelegramController;
 use App\Http\Controllers\TrackedGamesController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -22,7 +22,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/test', function () {
-    \App\Jobs\FetchRawg::dispatch('2022-08-20,2022-08-20');
+    \App\Jobs\GameNotificationTelegram::dispatch();
+//    \App\Jobs\FetchRawg::dispatch('2022-08-20,2022-08-20');
 });
 
 Route::get('/', [SearchController::class, 'index'])->name('main');
@@ -33,6 +34,9 @@ Route::get('/game-search', [GameSearchController::class, 'index'])->name('game.s
 Route::get('/game/{slug}', [GameController::class, 'show']);
 
 Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function () {
+    Route::get('/telegram', [TelegramController::class, 'addingTelegram']);
+    Route::get('/telegram/delete', [TelegramController::class, 'deleteTelegramId'])->name('delete.telegram.id');
+
     Route::post('/game-search', [GameSearchController::class, 'store'])->name('game.search.save');
     Route::delete('/game-search', [GameSearchController::class, 'destroy'])->name('game.search.delete');
 
@@ -47,5 +51,3 @@ Route::middleware([\App\Http\Middleware\Authenticate::class])->group(function ()
 Auth::routes();
 
 Route::get('/logout', LogoutController::class)->name('logout');
-
-Route::get('/error', ErrorPageController::class)->name('error');

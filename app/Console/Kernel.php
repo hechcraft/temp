@@ -15,6 +15,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        $schedule->command('telegram:send')->dailyAt('08:00');
         $schedule->command('game:update')->weekly();
     }
 

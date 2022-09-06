@@ -10,8 +10,12 @@ use Laravel\Sanctum\HasApiTokens;
 
 /**
  * @property int $id
+ * @property string $telegram_id
+ * @property string $avatar
  *
  * @method static User create($data)
+ * @method static User where($column, $value)
+ * @method static User first()
  */
 class User extends Authenticatable
 {

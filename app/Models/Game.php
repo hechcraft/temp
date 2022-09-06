@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Laracasts\Presenter\PresentableTrait;
 
 /**
@@ -52,7 +53,7 @@ class Game extends Model
         return $this->hasMany(GameStores::class);
     }
 
-    public function tracking()
+    public function tracking(): HasOne
     {
         return $this->hasOne(UserTracking::class);
     }

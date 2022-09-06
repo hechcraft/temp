@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @method static GameStores where($column, $value)
  * @method static GameStores first()
  * @method static GameStores save()
+ * @method static GameStores updateOrCreate($value)
  */
 class GameStores extends Model
 {

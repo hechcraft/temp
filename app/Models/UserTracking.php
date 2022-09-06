@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Ramsey\Collection\Collection;
 
 /**
  * @method static UserTracking firstOrCreate($value)
@@ -23,17 +25,10 @@ class UserTracking extends Model
     public function game(): HasOne
     {
         return $this->hasOne(Game::class, 'id', 'game_id')->orderBy('released');
-//            ->leftJoin('user_trackings', 'user_trackings.game_id', '=', 'games.id')
-//            ->orderByDesc('games.released');
     }
 
-    public function gamesByRelease()
+    public function user(): HasOne
     {
-        \DB::table('games')
-            ->leftJoin('user_trackings', 'games.id', '=', 'user_trackings.game_id')
-            ->select('games.*', 'user_trackings.*')
-            ->where('user_trackings.user_id', '=', Auth::user()->id)
-            ->orderByDesc('games.released')
-            ->get();
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 }
