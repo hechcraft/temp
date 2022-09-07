@@ -39,7 +39,7 @@ class ProfileControllerTest extends FeatureTestCase
             'avatar' => $file,
         ]);
 
-        Storage::disk()->assertExists('avatar/'. $file->hashName());
+        Storage::disk()->assertExists('avatar/' . $file->hashName());
     }
 
     public function test_user_name_update()
@@ -65,6 +65,19 @@ class ProfileControllerTest extends FeatureTestCase
 
         $this->assertDatabaseHas('users', [
             'email' => 'newemail@example.com',
+        ]);
+    }
+
+    public function test_user_search_engine_enable_change()
+    {
+        $user = User::first();
+        $this->actingAs($user)->put(route('profile.update'), [
+            'status_search_engine' => true,
+        ]);
+
+
+        $this->assertDatabaseHas('users', [
+            'search_engine_enable' => true
         ]);
     }
 }

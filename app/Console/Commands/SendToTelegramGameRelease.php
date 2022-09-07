@@ -36,7 +36,7 @@ class SendToTelegramGameRelease extends Command
         foreach ($games as $game) {
             $telegramId = $game->tracking->user->telegram_id ?? 0;
             if ($telegramId > 0) {
-                GameNotificationTelegram::dispatch($game, $telegramId)->delay(now()->addSecond(30));
+                GameNotificationTelegram::dispatch($game, $telegramId)->delay(rand(1,5) * 10);
             }
         }
     }

@@ -24,10 +24,12 @@ class SearchController extends Controller
         $trackedGames = collect();
 
         if (\Auth::check()) {
-            $trackedGames = $this->gameTracking->getTrackedUserGamesSortByReleased(\Auth::id());
+            $user = \Auth::user();
+            $trackedGames = $this->gameTracking->getTrackedUserGamesSortByReleased($user->id);
         }
 
-        return view('welcome', ['games' => $this->gameHelpers->gameSortByRelease(), 'trackedGames' => $trackedGames]);
+        return view('welcome', ['games' => $this->gameHelpers->gameSortByRelease(),
+            'trackedGames' => $trackedGames, 'user' => $user ?? null]);
     }
 
     public function search(Request $request): Redirector|RedirectResponse

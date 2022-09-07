@@ -22,8 +22,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/test', function () {
-    \App\Jobs\GameNotificationTelegram::dispatch();
-//    \App\Jobs\FetchRawg::dispatch('2022-08-20,2022-08-20');
+//    \App\Jobs\GameNotificationTelegram::dispatch();
+    \App\Jobs\FetchRawg::dispatch('2022-09-07,2022-10-07');
 });
 
 Route::get('/', [SearchController::class, 'index'])->name('main');

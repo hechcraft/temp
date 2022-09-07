@@ -76,8 +76,8 @@
                                                 <dd class="mt-1 flex text-sm text-white sm:mt-0 sm:col-span-2">
                                                     <input
                                                         class="flex-grow border-2 rounded-lg bg-gray-600 border-gray-500/50"
-                                                        value="" type="password" required
-                                                        name="password_confirmation"/>
+                                                        value="" type="password"
+                                                        name="password_confirmation" required/>
                                                     @error('password_confirmation')
                                                     <p class="mt-2 text-sm text-red-600" id="email-error">
                                                         {{$message}}
@@ -94,14 +94,24 @@
                                                             data-request-access="write"></script>
                                                 @else
                                                     <dt class="text-sm font-medium text-white">Telegram account</dt>
-                                                        <div class="grid-cols-2">
-                                                            <a href="{{route('delete.telegram.id')}}"
-                                                                    class="inline-flex items-center px-3.5 py-2 border border-transparent
+                                                    <div class="grid-cols-2">
+                                                        <a href="{{route('delete.telegram.id')}}"
+                                                           class="inline-flex items-center px-3.5 py-2 border border-transparent
                                                                 text-sm leading-4 font-medium rounded-full shadow-sm text-white bg-red-400 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                                                Delete telegram ID
-                                                            </a>
-                                                        </div>
+                                                            Delete telegram ID
+                                                        </a>
+                                                    </div>
                                                 @endif
+                                            </div>
+                                            <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5">
+                                                <dt class="text-sm font-medium text-white">Enable search engines</dt>
+                                                <dd class="mt-1 flex text-sm text-white sm:mt-0 sm:col-span-2">
+                                                    <div class="flex items-center">
+                                                        <input id="checked-checkbox" type="checkbox"
+                                                               name="status_search_engine" @if($user->search_engine_enable) checked @endif
+                                                               class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+                                                    </div>
+                                                </dd>
                                             </div>
                                             <div
                                                 class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:border-b sm:border-gray-200">
