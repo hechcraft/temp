@@ -45,7 +45,7 @@ class RawgClient
         ]);
     }
 
-    public function getRawgGameStroes(int $rawgGameId): array
+    public function getRawgGameStores(int $rawgGameId): array
     {
         return $this->get("/$rawgGameId/stores");
     }

@@ -5,15 +5,14 @@ namespace Controller;
 use App\Models\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Feature\FeatureTestCase;
 use Tests\TestCase;
 
-class GameControllerTest extends TestCase
+class GameControllerTest extends FeatureTestCase
 {
     public function setUp(): void
     {
         parent::setUp();
-
-        $this->artisan('migrate:fresh --seed');
 
         $this->user = User::first();
     }
@@ -25,7 +24,6 @@ class GameControllerTest extends TestCase
         $response->assertStatus(200);
 
         $response->assertSee('Steelrising');
-
     }
 
 

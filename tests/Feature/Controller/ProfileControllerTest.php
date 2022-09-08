@@ -6,12 +6,11 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Tests\Feature\FeatureTestCase;
 use Tests\TestCase;
 
-class ProfileControllerTest extends TestCase
+class ProfileControllerTest extends FeatureTestCase
 {
-    use RefreshDatabase;
-
     public function test_user_has_access_profile_page()
     {
         $user = User::factory()->create();
@@ -40,7 +39,7 @@ class ProfileControllerTest extends TestCase
             'avatar' => $file,
         ]);
 
-        Storage::disk()->assertExists('avatar/'. $file->hashName());
+        Storage::disk()->assertExists('avatar/' . $file->hashName());
     }
 
     public function test_user_name_update()
@@ -66,6 +65,19 @@ class ProfileControllerTest extends TestCase
 
         $this->assertDatabaseHas('users', [
             'email' => 'newemail@example.com',
+        ]);
+    }
+
+    public function test_user_search_engine_enable_change()
+    {
+        $user = User::first();
+        $this->actingAs($user)->put(route('profile.update'), [
+            'status_search_engine' => true,
+        ]);
+
+
+        $this->assertDatabaseHas('users', [
+            'search_engine_enable' => true
         ]);
     }
 }

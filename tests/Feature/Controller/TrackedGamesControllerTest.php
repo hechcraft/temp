@@ -6,12 +6,11 @@ use App\Models\Game;
 use App\Models\User;
 use App\Models\UserTracking;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Feature\FeatureTestCase;
 use Tests\TestCase;
 
-class TrackedGamesControllerTest extends TestCase
+class TrackedGamesControllerTest extends FeatureTestCase
 {
-    use  RefreshDatabase;
-
     public function test_user_has_access_list_games()
     {
         $user = User::factory()->create();

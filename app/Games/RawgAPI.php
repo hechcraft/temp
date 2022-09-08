@@ -14,6 +14,11 @@ class RawgAPI
     ) {
     }
 
+    public function getMetacriticData(int $rawgGameId): RawgMetacriticDataDTO
+    {
+        return RawgMetacriticDataDTO::fromResponse($this->rawgClient->getRawgGameById($rawgGameId));
+    }
+
     /**
      * @param  string  $dates
      * @return Collection<RawgGame>
@@ -55,7 +60,7 @@ class RawgAPI
      */
     public function getGameStore(int $rawgGameId): Collection
     {
-        $response = $this->rawgClient->getRawgGameStroes($rawgGameId);
+        $response = $this->rawgClient->getRawgGameStores($rawgGameId);
         /** @phpstan-ignore-next-line */
         $stores = collect();
 

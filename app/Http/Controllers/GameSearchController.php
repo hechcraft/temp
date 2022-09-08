@@ -29,7 +29,6 @@ class GameSearchController extends Controller
             return redirect()->route('main');
         }
 
-        /** @phpstan-ignore-next-line  */
         $search = $this->searchService->gameSearch($request->get('search'))->sortByDesc('released');
 
         return view(
@@ -44,12 +43,10 @@ class GameSearchController extends Controller
             'rawgGameId' => 'required|integer',
         ]);
 
-        /** @phpstan-ignore-next-line  */
         $currentGame = $this->gameHelpers->gameByRawgId(
             $request->post('rawgGameId')
         );
         if (! $currentGame) {
-            /** @phpstan-ignore-next-line  */
             $currentGame = $this->saveGames->storeNewGame(
                 $request->post('rawgGameId')
             );

@@ -35,6 +35,13 @@ class ProfileController extends Controller
             $request->user()->avatar = $request->file('avatar')->store('avatar');
         }
 
+        if ($request['status_search_engine'])
+        {
+            $request->user()->search_engine_enable = true;
+        } else {
+            $request->user()->search_engine_enable = false;
+        }
+
         $request->user()->save();
         /** @phpstan-ignore-next-line */
         return redirect()->route('main');

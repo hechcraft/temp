@@ -27,6 +27,6 @@ class ViewComposerServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('*', UserComposer::class);
-        View::composer(['auth.login', 'auth.register', 'error'], RandomImageComposer::class);
+        View::composer('*', RandomImageComposer::class);
     }
 }

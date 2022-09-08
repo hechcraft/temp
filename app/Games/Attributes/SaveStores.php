@@ -34,8 +34,8 @@ class SaveStores
             fn (RawgStoreDTO $storeDTO) =>
         GameStores::where('game_id', $gameId)
             ->where('store_id', $storeDTO->storeId)
-            ->first()
-            ->update([
+            ->updateOrCreate([
+                'game_id' => $gameId,
                 'store_id' => $storeDTO->storeId,
                 'store_link' => $storeDTO->url,
             ])

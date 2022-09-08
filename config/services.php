@@ -35,4 +35,7 @@ return [
         'key' => env('RAWG_KEY'),
     ],
 
+    'telegram' => [
+        'key' => env('TELEGRAM_KEY')
+    ],
 ];

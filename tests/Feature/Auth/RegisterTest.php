@@ -2,13 +2,34 @@
 
 namespace Auth;
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Feature\FeatureTestCase;
 use Tests\TestCase;
 
-class RegisterTest extends TestCase
+class RegisterTest extends FeatureTestCase
 {
-    use RefreshDatabase;
+    public function test_show_correct_register_view()
+    {
+        $response = $this->get(route('register'));
 
+        $response->assertViewIs('auth.register');
+    }
+
+    public function test_create_new_user()
+    {
+        $this->post(route('register'), [
+            'name' => 'Test2',
+            'email' => 'test2@example.com',
+            'password' => '11223344',
+            'password_confirmation' => '11223344',
+        ]);
+
+        $this->assertDatabaseHas('users', [
+            'name' => 'Test2',
+            'email' => 'test2@example.com',
+        ]);
+    }
     public function test_user_email_stored_in_database()
     {
         $this->post(route('register'), [

@@ -35,10 +35,10 @@ class  GameSeeder extends Seeder
                 'released' => '2022-09-15',
             ],
             [
-                'rawg_id' => 499258,
-                'slug' => 'midnight-fight-express',
-                'name' => 'Midnight Fight Express',
-                'released' => '2022-08-23',
+                'rawg_id' => 4992581,
+                'slug' => 'midnight-fight-express 3',
+                'name' => 'Midnight Fight Express 3',
+                'released' => '2022-08-25',
             ],
             [
                 'rawg_id' => 619867,

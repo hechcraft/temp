@@ -4,6 +4,7 @@ namespace App\Helpers\Services;
 
 use App\Games\RawgGame;
 use App\Models\Game;
+use App\Models\Images;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 
@@ -14,32 +15,30 @@ class GameService
         return Game::firstWhere('rawg_id', $id);
     }
 
+    public function getGameCover(int $id): Images
+    {
+        return $this->gameByRawgId($id)->images->where('type', 'cover')->first();
+    }
+
     /**
      * @return Game|Collection<Game>
      */
     /** @phpstan-ignore-next-line  */
-    public function gameSortByRelease()
+    public function gameSortByRelease($date = null): Collection
     {
-        return Game::where('released', '>=', Carbon::now()->toDateString())
+        return Game::where('released', '>=', $date ?? Carbon::now()->toDateString())
             ->with('images')
             ->get()
             ->sortBy('released');
     }
 
     /**
-     * @param  int  $rawgId
-     * @return Collection<Game>
+     * @return Game|Collection<Game>
      */
-    public function getGameStoreLink(int $rawgId): Collection
+    public function getGameReleaseToday(?string $date = null): Collection
     {
-        /** @phpstan-ignore-next-line  */
-        $links = collect();
-        /** @phpstan-ignore-next-line  */
-        foreach ($this->gameByRawgId($rawgId)->stores as $store) {
-            $links->push($store->store_link);
-        }
-
-        return $links;
+        return Game::where('released', '=', $date ?? Carbon::now()->toDateString())
+            ->get();
     }
 
     public function generateMd5ForDbGame(Game $game): string

@@ -22,7 +22,7 @@ class PaginateRawgResponse
     {
         $rawgGames = new Collection();
 
-        foreach (range(1, $this->getLastPageNubmer($gamesCount)) as $pageNumber) {
+        foreach (range(1, $this->getLastPageNumber($gamesCount)) as $pageNumber) {
             $response = $this->rawgClient->getNextPaginatePageForSearch($pageNumber, $query);
 
             $rawgGames->push($this->rawgService->sortRawgGamesByRating($response));
@@ -40,7 +40,7 @@ class PaginateRawgResponse
     {
         $rawgGames = new Collection();
 
-        foreach (range(1, $this->getLastPageNubmer($gamesCount)) as $pageNumber) {
+        foreach (range(1, $this->getLastPageNumber($gamesCount)) as $pageNumber) {
             $response = $this->rawgClient->getNextPaginatePageForGames($pageNumber, $dates);
 
             $rawgGames->push($this->rawgService->sortRawgGamesByRating($response));
@@ -49,7 +49,7 @@ class PaginateRawgResponse
         return $rawgGames->flatten();
     }
 
-    private function getLastPageNubmer(int $gamesCount): int
+    private function getLastPageNumber(int $gamesCount): int
     {
         return intdiv($gamesCount, 40) + 1;
     }

@@ -3,13 +3,10 @@
 namespace Auth;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Tests\Feature\FeatureTestCase;
 
-class LogInTest extends TestCase
+class LogInTest extends FeatureTestCase
 {
-    use RefreshDatabase;
-
     public function test_required_password()
     {
         $user = User::factory()->create();
@@ -40,5 +37,12 @@ class LogInTest extends TestCase
         ]);
 
         $response->assertRedirect('/');
+    }
+
+    public function test_show_correct_login_view()
+    {
+        $response = $this->get(route('login'));
+
+        $response->assertViewIs('auth.login');
     }
 }
