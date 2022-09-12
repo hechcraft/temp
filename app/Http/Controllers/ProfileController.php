@@ -27,19 +27,14 @@ class ProfileController extends Controller
 
         $request->user()->update($request->all());
 
+        $request->user()->search_engine_enable = $request->get('status_search_engine', false);
+
         /** @phpstan-ignore-next-line */
         $request->user()->password = Hash::make($request->password);
 
         if (!is_null($request->file('avatar'))) {
             /** @phpstan-ignore-next-line */
             $request->user()->avatar = $request->file('avatar')->store('avatar');
-        }
-
-        if ($request['status_search_engine'])
-        {
-            $request->user()->search_engine_enable = true;
-        } else {
-            $request->user()->search_engine_enable = false;
         }
 
         $request->user()->save();

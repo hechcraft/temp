@@ -74,7 +74,7 @@
                                 id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown"
                                 data-dropdown-placement="bottom">
                             <span class="sr-only">Open user menu</span>
-                            <img class="w-8 h-8 rounded-full" src="{{asset(Auth::user()->avatar)}}" alt="user photo">
+                            <img class="w-8 h-8 rounded-full" src="{{asset($user->avatar)}}" alt="user photo">
                         </button>
                         <!-- Dropdown menu -->
                         <div
@@ -83,9 +83,9 @@
                             style="position: absolute; inset: 0px auto auto 0px; margin: 0px; transform: translate(1011px, 61px);"
                             data-popper-placement="bottom">
                             <div class="py-3 px-4">
-                                <span class="block text-sm text-white dark:text-white">{{Auth::user()->name}}</span>
+                                <span class="block text-sm text-white dark:text-white">{{$user->name}}</span>
                                 <span
-                                    class="block text-sm font-medium text-white truncate dark:text-gray-400">{{Auth::user()->email}}</span>
+                                    class="block text-sm font-medium text-white truncate dark:text-gray-400">{{$user->email}}</span>
                             </div>
                             <ul class="py-1" aria-labelledby="user-menu-button">
                                 <li>
@@ -94,7 +94,7 @@
                                         Games</a>
                                 </li>
                                 <li>
-                                    <a href="{{route('profile', ['user' => Auth::user()->id])}}"
+                                    <a href="{{route('profile', ['user' => $user->id])}}"
                                        class="block py-2 px-4 text-sm text-white hover:bg-text-white dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</a>
                                 </li>
                                 <li>
@@ -138,12 +138,12 @@
                     <div class="max-w-3xl mx-auto px-4 flex items-center sm:px-6">
                         <div class="flex-shrink-0">
                             <img class="h-10 w-10 rounded-full"
-                                 src="{{asset(Auth::user()->avatar)}}"
+                                 src="{{asset($user->avatar)}}"
                                  alt="">
                         </div>
                         <div class="ml-3">
-                            <div class="text-base font-medium text-white">{{Auth::user()->name}}</div>
-                            <div class="text-sm font-medium text-white">{{Auth::user()->email}}</div>
+                            <div class="text-base font-medium text-white">{{$user->name}}</div>
+                            <div class="text-sm font-medium text-white">{{$user->email}}</div>
                         </div>
                     </div>
                     <div class="mt-3 max-w-3xl mx-auto px-2 space-y-1 sm:px-4">
