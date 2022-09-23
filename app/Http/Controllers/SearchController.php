@@ -19,12 +19,13 @@ class SearchController extends Controller
     ) {
     }
 
-    public function index(): Factory|View
+    public function index(Request $request): Factory|View
     {
+
         $trackedGames = collect();
 
-        if (\Auth::check()) {
-            $user = \Auth::user();
+        if ($request->user()) {
+            $user = $request->user();
             $trackedGames = $this->gameTracking->getTrackedUserGamesSortByReleased($user->id);
         }
 

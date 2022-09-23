@@ -63,7 +63,7 @@
                                                 <dd class="mt-1 flex text-sm text-white sm:mt-0 sm:col-span-2">
                                                     <input
                                                         class="flex-grow border-2 rounded-lg bg-gray-600 border-gray-500/50"
-                                                        value="" type="password" name="password" required/>
+                                                        value="" type="password" name="password"/>
                                                     @error('password')
                                                     <p class="mt-2 text-sm text-red-600" id="email-error">
                                                         {{$message}}
@@ -77,7 +77,7 @@
                                                     <input
                                                         class="flex-grow border-2 rounded-lg bg-gray-600 border-gray-500/50"
                                                         value="" type="password"
-                                                        name="password_confirmation" required/>
+                                                        name="password_confirmation"/>
                                                     @error('password_confirmation')
                                                     <p class="mt-2 text-sm text-red-600" id="email-error">
                                                         {{$message}}
@@ -107,8 +107,10 @@
                                                 <dt class="text-sm font-medium text-white">Enable search engines</dt>
                                                 <dd class="mt-1 flex text-sm text-white sm:mt-0 sm:col-span-2">
                                                     <div class="flex items-center">
-                                                        <input id="checked-checkbox" type="checkbox"
-                                                               name="status_search_engine" @if($user->search_engine_enable) checked @endif
+                                                        <input id="status_search_engine" type="checkbox"
+                                                               name="status_search_engine"
+                                                               @if($user->search_engine_enable) checked @endif
+                                                               value="{{$user->search_engine_enable}}"
                                                                class="w-4 h-4 text-blue-600 bg-gray-100 rounded border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
                                                     </div>
                                                 </dd>
@@ -162,6 +164,10 @@
         </div>
     </form>
     <script>
+        $('#status_search_engine').on('change', function () {
+            this.value = this.checked ? 1 : 0;
+        }).change();
+
         $(document).ready(function () {
             if ($('#toggleValue').val() === "1") {
                 $('#toggle').addClass("bg-indigo-600");

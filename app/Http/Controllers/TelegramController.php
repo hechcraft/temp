@@ -30,9 +30,9 @@ class TelegramController extends Controller
     }
 
 
-    public function deleteTelegramId(): Redirector|Application|RedirectResponse
+    public function deleteTelegramId(Request $request): Redirector|Application|RedirectResponse
     {
-        $this->userService->deleteTelegramId(\Auth::user()->id);
+        $this->userService->deleteTelegramId($request->user()->id);
 
         return redirect(route('main'));
     }

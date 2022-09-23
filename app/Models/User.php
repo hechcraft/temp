@@ -34,6 +34,7 @@ class User extends Authenticatable
         'password',
         'search_engine',
         'avatar',
+        'search_engine_enable'
     ];
 
     /**
