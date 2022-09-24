@@ -23,7 +23,7 @@
                             <div class="bg-gray-800 bg-opacity-30 absolute w-full h-full p-6">
                                 <h2 class="lg:text-xl leading-4 text-base lg:leading-5 text-white dark:text-gray-900">
                                     {{$trackedGame->name}}</h2>
-                                <div class="flex h-full items-end pb-6">
+                                <div class="absolute bottom-6 left-6">
                                     <h3 class="text-xl lg:text-2xl font-semibold leading-5 lg:leading-6 text-white dark:text-gray-900">
                                         {{$trackedGame->released}}</h3>
                                 </div>

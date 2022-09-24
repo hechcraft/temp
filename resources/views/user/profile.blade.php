@@ -89,7 +89,7 @@
                                                 @if(!$user->telegram_id)
                                                     <dt class="text-sm font-medium text-white">Telegram account</dt>
                                                     <script async src="https://telegram.org/js/telegram-widget.js?19"
-                                                            data-telegram-login="DenYatsenkoDebugBot" data-size="medium"
+                                                            data-telegram-login="GameRadarBot" data-size="medium"
                                                             data-auth-url="/telegram" data-userpic="false"
                                                             data-request-access="write"></script>
                                                 @else
