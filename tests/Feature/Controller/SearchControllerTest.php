@@ -35,8 +35,6 @@ class SearchControllerTest extends FeatureTestCase
 
         $response->assertViewIs('welcome');
         $response->assertStatus(200);
-        $response->assertSee('Tracked games', $response);
         $response->assertSee('Profile', $response);
-        $response->assertSee('Steelrising', $response);
     }
 }

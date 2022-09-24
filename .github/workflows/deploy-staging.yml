@@ -1,0 +1,28 @@
+name: Deploy on staging
+
+on:
+  workflow_dispatch:
+
+  workflow_run:
+    workflows: [Build and tag Docker image]
+    types:
+      - completed
+
+jobs:
+  deploy-staging:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: SSH Remote Commands
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: 22
+          script: |
+            docker pull hechcraft/game-radar:latest
+            docker stop game-radar || true
+            docker rm game-radar || true
+            docker run --network local-network -p 81:80 -d --name game-radar --restart unless-stopped hechcraft/game-radar:latest
