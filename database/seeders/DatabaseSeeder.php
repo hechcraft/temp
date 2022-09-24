@@ -17,13 +17,13 @@ class DatabaseSeeder extends Seeder
         $this->call(PlatformsSeeder::class);
         $this->call(StoreSeeder::class);
         //for tests
-        $this->call(GameSeeder::class);
-        $this->call(GameGenresSeeder::class);
-        $this->call(GamePlatformsSeeder::class);
-        $this->call(GameStoresSeeder::class);
-        $this->call(ImagesSeeder::class);
-        $this->call(UserSeeder::class);
-        $this->call(UserTrackingSeeder::class);
+        //$this->call(GameSeeder::class);
+        //$this->call(GameGenresSeeder::class);
+        //$this->call(GamePlatformsSeeder::class);
+        //$this->call(GameStoresSeeder::class);
+        //$this->call(ImagesSeeder::class);
+        //$this->call(UserSeeder::class);
+        //$this->call(UserTrackingSeeder::class);
 
     }
 }
