@@ -25,7 +25,7 @@ class ProfileController extends Controller
             'password' => ['string', 'min:8', 'confirmed'],
         ]);
 
-        $request->user()->update($request->all());
+        $request->user()->fill($request->all());
 
         $request->user()->search_engine_enable = $request->get('status_search_engine', false);
 
