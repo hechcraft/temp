@@ -50,7 +50,7 @@
 
                     <div class="grid grid-cols-3">
                         @auth
-                            @if(!$game->tracking)
+                            @if(!$tracking)
                                 <form action="{{route('game.search.save')}}" method="post" class="mt-4 col">
                                     @csrf
                                     <div class="flex sm:flex-col1">
@@ -65,7 +65,7 @@
                                     </div>
                                 </form>
                             @endif
-                            @if($game->tracking)
+                            @if($tracking)
                                 <form action="{{route('game.search.delete')}}" method="post" class="mt-4 col">
                                     @method('delete')
                                     @csrf

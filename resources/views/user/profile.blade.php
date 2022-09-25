@@ -59,11 +59,11 @@
                                                 </dd>
                                             </div>
                                             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5">
-                                                <dt class="text-sm font-medium text-white">Password</dt>
+                                                <dt class="text-sm font-medium text-white"> required</dt>
                                                 <dd class="mt-1 flex text-sm text-white sm:mt-0 sm:col-span-2">
                                                     <input
                                                         class="flex-grow border-2 rounded-lg bg-gray-600 border-gray-500/50"
-                                                        value="" type="password" name="password"/>
+                                                        value="" type="password" name="password" required/>
                                                     @error('password')
                                                     <p class="mt-2 text-sm text-red-600" id="email-error">
                                                         {{$message}}
@@ -77,7 +77,7 @@
                                                     <input
                                                         class="flex-grow border-2 rounded-lg bg-gray-600 border-gray-500/50"
                                                         value="" type="password"
-                                                        name="password_confirmation"/>
+                                                        name="password_confirmation" required/>
                                                     @error('password_confirmation')
                                                     <p class="mt-2 text-sm text-red-600" id="email-error">
                                                         {{$message}}
